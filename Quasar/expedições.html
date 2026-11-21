@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expedições Espaciais · Astronomia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<header>
+  <ul class="nav">
+    <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="biblioteca.html">Biblioteca</a></li>
+    <li class="nav-item"><a class="nav-link" href="intera-o-sistema-solar-main/sistema-solar.html">Sistema Solar</a></li>
+    <li class="nav-item"><a class="nav-link" href="bigbang.html">Big Bang</a></li>
+    <li class="nav-item"><a class="nav-link" href="expedições.html">Expedições</a></li>
+    <li class="nav-item"><a class="nav-link" href="astrofisica.html">Astrofísica</a></li>
+    <li class="nav-item"><a class="nav-link" href="foguetes.html">Foguetes</a></li>
+    <li class="nav-item"><a class="nav-link" href="introjogo.html">Jogar</a></li>
+  </ul>
+</header>
+
+<style>
+  /* =========================================================
+     BASE DA PÁGINA
+     fundo: quase preto com brilhos roxos e laranjas (igual ao home e à biblioteca)
+     ========================================================= */
+  :root {
+    --lilac: #d3b8ff;
+    --lilac-line: rgba(190, 160, 245, .22);
+    --cream: #f3dfa6;
+    --orange: #e0892f;
+    --red: #e8281f;
+    --panel: #0b0b12;
+    --display: "Playfair Display", Georgia, serif;
+    --body: "Inter", system-ui, sans-serif;
+  }
+
+  html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+    background-color: #05030a;
+    background-image:
+      radial-gradient(ellipse 45% 9% at 85% 14%, rgba(130, 80, 210, .15), transparent 100%),
+      radial-gradient(ellipse 45% 9% at 10% 40%, rgba(224, 137, 47, .07), transparent 100%),
+      radial-gradient(ellipse 45% 9% at 88% 66%, rgba(120, 70, 190, .13), transparent 100%),
+      radial-gradient(ellipse 45% 8% at 12% 88%, rgba(224, 137, 47, .06), transparent 100%),
+      linear-gradient(180deg, #05040a 0, #0a0613 50%, #04030a 100%);
+  }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: transparent;
+    color: #d6dcff;
+    font-family: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  /* ---------- Navbar ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(3, 3, 10, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(168, 180, 255, 0.2);
+    padding: 0 1rem;
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+  header .nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: .25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    overflow-x: auto;
+  }
+  header .nav-item { margin: 0; }
+  header .nav-link {
+    display: block;
+    padding: .95rem 1rem;
+    color: #b8c0e8;
+    text-decoration: none;
+    font-size: .95rem;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  header .nav-link:hover {
+    color: #fff;
+    background: rgba(100, 90, 180, 0.2);
+    border-bottom-color: #a8b4ff;
+  }
+  header .nav-link.active {
+    color: #fff;
+    border-bottom-color: #c4b5fd;
+  }
+  header .nav-link:focus-visible {
+    outline: 2px solid #a8b4ff;
+    outline-offset: -2px;
+  }
+  section { scroll-margin-top: 60px; }
+
+  /* ---------- Banner (hero) ---------- */
+  #galaxia {
+    position: relative;
+    width: 100%;
+    height: 86vh;
+    min-height: 620px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 75% 90%, rgba(70, 60, 150, .35) 0%, rgba(3,3,10,0) 60%),
+      radial-gradient(ellipse at center, #0d0d30 0%, #03030a 78%);
+  }
+  #galaxia canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* bordas laranja do banner (só nas horizontais, igual ao laranja dos cards) */
+  #galaxia::before,
+  #galaxia::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(224, 137, 47, .6);
+    z-index: 3;
+    pointer-events: none;
+  }
+  #galaxia::before { top: 0; }
+  #galaxia::after { bottom: 0; }
+  #galaxia .hero {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    max-width: min(58%, 820px);
+    padding: 0 0 0 6vw;
+    pointer-events: none;
+    font-family: "Work Sans", system-ui, sans-serif;
+  }
+  #galaxia p { line-height: 1.6; }
+  #galaxia .kicker {
+    margin: 0 0 1.2rem;
+    font-size: clamp(13px, 1.3vw, 17px);
+    letter-spacing: .08em;
+    color: #e8ebff;
+    opacity: .9;
+  }
+  #galaxia h1 {
+    margin: 0 0 1.2rem;
+    font-family: "DM Serif Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(44px, 7.4vw, 112px);
+    line-height: 1.02;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 30px rgba(0,0,0,.7), 0 0 60px rgba(124,108,255,.35);
+  }
+  #galaxia .descricao {
+    margin: 0;
+    max-width: 520px;
+    font-size: clamp(13px, 1.15vw, 16px);
+    line-height: 1.6;
+    color: #dfe3ff;
+    opacity: .9;
+  }
+
+  @media (max-width: 819px) {
+    #galaxia { min-height: 680px; }
+    #galaxia .hero {
+      max-width: 100%;
+      padding: 0 6vw;
+      justify-content: flex-start;
+      padding-top: 11vh;
+    }
+    #galaxia h1 { font-size: clamp(40px, 12.5vw, 76px); }
+  }
+
+  /* =========================================================
+     CONTEÚDO DO ARTIGO
+     ========================================================= */
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 3.2rem 1.25rem 2rem;
+    font-family: var(--body);
+  }
+
+  /* cada seção vira um painel com a moldura retrô dos cards */
+  section {
+    position: relative;
+    margin-bottom: 0;
+    padding: clamp(1.5rem, 3.4vw, 2.6rem);
+    background: linear-gradient(180deg, #11122200, #0a0b14), #0c0f19;
+    border: 1.5px solid rgba(243, 223, 166, .5);
+    border-radius: 14px;
+  }
+  section::before,
+  section::after {
+    content: "";
+    position: absolute;
+    height: 4px;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  section::before {
+    top: -3px;
+    left: 30px;
+    width: 30px;
+    background: var(--orange);
+  }
+  section::after {
+    bottom: -3px;
+    right: 36px;
+    width: 24px;
+    background: var(--red);
+  }
+
+  h2 {
+    margin: 0 0 1.5rem;
+    padding-bottom: .95rem;
+    color: var(--cream);
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(26px, 3.6vw, 38px);
+    line-height: 1.12;
+    letter-spacing: 0;
+    border: 0;
+    background:
+      linear-gradient(var(--orange), var(--orange)) 0 100% / 44px 3px no-repeat,
+      linear-gradient(90deg, rgba(211, 184, 255, .32), transparent) 0 100% / 100% 1px no-repeat;
+  }
+  h3 {
+    margin: 2rem 0 .7rem;
+    color: #fff;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(21px, 2.4vw, 26px);
+    line-height: 1.2;
+  }
+  h4 {
+    margin: .8rem 0;
+    color: #cfc9d9;
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+  h4 strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+  main p {
+    margin: .9rem 0;
+    color: #d6d0ca;
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.85;
+    opacity: 1;
+  }
+  main p strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  em {
+    color: #bfb7d2;
+    opacity: 1;
+  }
+
+  /* listas com marcador em losango (o mesmo do logo) */
+  main ul {
+    margin: 1rem 0 1.4rem;
+    padding: 0;
+    list-style: none;
+    color: #cfc9d9;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  main li {
+    position: relative;
+    margin-bottom: .65rem;
+    padding-left: 1.5rem;
+  }
+  main li::before {
+    content: "";
+    position: absolute;
+    left: .1rem;
+    top: .62em;
+    width: 7px;
+    height: 7px;
+    background: var(--orange);
+    transform: rotate(45deg);
+  }
+  main li strong {
+    color: var(--lilac);
+    font-weight: 600;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.4rem auto;
+    border-radius: 12px;
+    border: 1.5px solid rgba(243, 223, 166, .45);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, .5);
+  }
+
+  /* separador entre painéis */
+  hr {
+    border: 0;
+    height: 1px;
+    margin: 2.4rem 0;
+    background: linear-gradient(90deg, transparent, rgba(211, 184, 255, .38), transparent);
+  }
+
+  /* tabelas */
+  table {
+    width: 100%;
+    margin: 1.2rem 0 1.6rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1.5px solid rgba(190, 160, 245, .4);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: var(--body);
+    font-size: .94rem;
+  }
+  th, td {
+    padding: .75rem .95rem;
+    text-align: left;
+    border: 0;
+    border-bottom: 1px solid var(--lilac-line);
+    line-height: 1.55;
+  }
+  thead {
+    background: rgba(96, 66, 168, .5);
+  }
+  th {
+    color: #f1e8ff;
+    font-weight: 600;
+    font-size: .85rem;
+    letter-spacing: .02em;
+    border-bottom: 1px solid rgba(211, 184, 255, .4);
+  }
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  tbody tr:nth-child(even) {
+    background: rgba(190, 160, 245, .05);
+  }
+  tbody tr {
+    transition: background .2s ease;
+  }
+  tbody tr:hover {
+    background: rgba(224, 137, 47, .09);
+  }
+  td {
+    color: #d0cad8;
+    font-weight: 300;
+  }
+  td:first-child {
+    color: var(--orange);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  td strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+
+  footer {
+    padding: 1.6rem 1rem 2.4rem;
+    text-align: center;
+    color: #7b7f96;
+    font-family: var(--body);
+    font-size: .85rem;
+    opacity: 1;
+  }
+  footer p {
+    margin: 0;
+    color: inherit;
+    font-weight: 400;
+    font-size: inherit;
+  }
+
+  @media (max-width: 640px) {
+    main { padding: 2rem .9rem 1.2rem; }
+    section { padding: 1.4rem 1.1rem; }
+    table { display: block; overflow-x: auto; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+
+<!-- Banner -->
+<div id="galaxia">
+  <canvas aria-hidden="true"></canvas>
+  <div class="hero">
+    <p class="kicker">Semana do DS · Astronomia</p>
+    <h1>Expedições<br>Espaciais</h1>
+    <p class="descricao">Uma viagem pela história da exploração do espaço: da corrida entre a NASA e a União Soviética às agências que hoje estudam o Universo.</p>
+  </div>
+</div>
+
+<main>
+
+  <!-- NASA -->
+  <section id="nasa">
+    <h2>NASA — Estados Unidos</h2>
+    <img src="nasa.png" alt="Logo da NASA">
+    <h3>O robô Perseverance</h3>
+    <h4>O Perseverance é um robô explorador da NASA. Ele foi lançado em 30 de julho de 2020 e pousou em Marte em 18 de fevereiro de 2021. Sua missão é estudar o planeta e procurar sinais de vida microbiana antiga.</h4>
+    <img src="perseverence.png" alt="Robô Perseverance em Marte">
+
+    <h3>Missão Perseverance: exploração de Marte</h3>
+    <h4>A missão Perseverance é uma missão espacial da NASA que tem como objetivo explorar Marte, estudar suas características e investigar se o planeta já teve condições para abrigar vida no passado. O robô foi lançado em 30 de julho de 2020 e chegou a Marte em 18 de fevereiro de 2021.</h4>
+
+    <h4><strong>Principais objetivos da missão</strong></h4>
+    <ul>
+      <li><strong>Procurar sinais de vida antiga:</strong> analisar rochas e o solo em busca de evidências de vida microscópica que possa ter existido no passado.</li>
+      <li><strong>Estudar o planeta:</strong> investigar o clima, a geologia e a composição de Marte.</li>
+      <li><strong>Coletar amostras:</strong> guardar fragmentos de rochas e solo para possíveis análises futuras na Terra.</li>
+      <li><strong>Preparar futuras missões:</strong> testar tecnologias que poderão ajudar astronautas a explorar Marte no futuro.</li>
+    </ul>
+
+    <h4><strong>Como o robô funciona</strong></h4>
+    <ul>
+      <li><strong>Programação:</strong> controla as atividades do robô.</li>
+      <li><strong>Sensores e câmeras:</strong> coletam informações e imagens.</li>
+      <li><strong>Inteligência artificial:</strong> auxilia na navegação autônoma.</li>
+      <li><strong>Comunicação:</strong> envia dados de Marte para a Terra.</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- URSS -->
+  <section id="urss">
+    <h2>☭ URSS — União Soviética</h2>
+    <h3>A pesquisa em astrofísica na União Soviética</h3>
+    <p>A União Soviética foi pioneira da era espacial. Seu programa, liderado pelo engenheiro-chefe Serguei Korolev, abriu caminho para quase tudo o que veio depois.</p>
+
+    <h3>Principais conquistas</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Ano</th>
+          <th>Conquista</th>
+          <th>O que foi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1957</td><td>Sputnik 1</td><td>Lançou o primeiro satélite artificial da Terra (4 de outubro).</td></tr>
+        <tr><td>1957</td><td>Laika e a Sputnik 2</td><td>Primeiro animal a orbitar a Terra (3 de novembro).</td></tr>
+        <tr><td>1959</td><td>Luna 2 e Luna 3</td><td>A Luna 2 foi a primeira sonda a atingir a Lua; a Luna 3 fotografou seu lado oculto.</td></tr>
+        <tr><td>1961</td><td>Yuri Gagarin</td><td>Primeiro ser humano a viajar para o espaço, a bordo da nave Vostok 1 (12 de abril).</td></tr>
+        <tr><td>1963</td><td>Valentina Tereshkova</td><td>Primeira mulher a viajar para o espaço, na Vostok 6.</td></tr>
+        <tr><td>1965</td><td>Alexei Leonov</td><td>Realizou a primeira caminhada espacial da história, na missão Voskhod 2.</td></tr>
+        <tr><td>1966</td><td>Luna 9</td><td>Realizou o primeiro pouso suave bem-sucedido de uma sonda na Lua.</td></tr>
+        <tr><td>1970</td><td>Venera 7</td><td>Primeira sonda a pousar em outro planeta (Vênus) e transmitir dados.</td></tr>
+        <tr><td>1971</td><td>Salyut 1</td><td>Foi a primeira estação espacial do mundo.</td></tr>
+        <tr><td>1986</td><td>Estação Mir</td><td>Início da construção de uma estação modular que ficou mais de 15 anos em órbita.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Importância para a astronomia</h3>
+    <p>A União Soviética contribuiu para o avanço da ciência e da tecnologia espacial. Suas missões ajudaram a estudar a Terra, a Lua e o espaço, além de desenvolver tecnologias para viagens espaciais. A competição com os Estados Unidos, a chamada <strong>Corrida Espacial</strong>, acelerou a exploração espacial mundial.</p>
+
+    <h3>Principal agência da União Soviética</h3>
+    <p>A principal agência de inteligência, segurança interna e polícia secreta da União Soviética era o <strong>KGB</strong> (Komitet Gosudarstvennoy Bezopasnosti, ou Comitê de Segurança do Estado), ativo de 1954 a 1991.</p>
+    <p><em>Importante: o KGB cuidava de segurança e espionagem, não de ciência espacial. O programa espacial soviético era conduzido por birôs de projetos, como o OKB-1 de Korolev, e sua herança hoje está na Roscosmos.</em></p>
+  </section>
+
+  <hr>
+
+  <!-- Outras agências -->
+  <section id="agencias">
+    <h2>Outras agências e organizações que estudam o espaço</h2>
+    <p>Além da NASA e da antiga URSS, muitos países têm agências dedicadas a estudar e explorar o espaço.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Agência</th>
+          <th>País / Região</th>
+          <th>O que faz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>ESA</strong></td><td>Europa</td><td>Estuda o Universo, planetas e galáxias, além de desenvolver satélites e participar de missões espaciais.</td></tr>
+        <tr><td><strong>CNSA</strong></td><td>China</td><td>Desenvolve missões espaciais, explora a Lua e participa da exploração de Marte.</td></tr>
+        <tr><td><strong>ISRO</strong></td><td>Índia</td><td>Desenvolve foguetes e satélites e realiza missões de exploração da Lua e do Sol.</td></tr>
+        <tr><td><strong>JAXA</strong></td><td>Japão</td><td>Pesquisa asteroides, planetas e outros corpos celestes por meio de sondas e missões espaciais.</td></tr>
+        <tr><td><strong>ROSCOSMOS</strong></td><td>Rússia</td><td>Desenvolve missões espaciais, foguetes e naves, além de participar de atividades na Estação Espacial Internacional.</td></tr>
+        <tr><td><strong>AEB</strong></td><td>Brasil</td><td>Coordena atividades espaciais brasileiras, incluindo projetos de satélites e o desenvolvimento do setor espacial nacional.</td></tr>
+      </tbody>
+    </table>
+
+    <p><em>Observação: essas organizações são principalmente agências espaciais. A astronomia também é estudada por universidades, observatórios e institutos científicos que investigam estrelas, galáxias e a origem do Universo.</em></p>
+  </section>
+</main>
+
+<hr>
+<footer>
+  <p>Semana do DS: Quasar · Expedições Espaciais</p>
+</footer>
+
+
+<script>
+/* ============================================================
+   Banner: globo ASCII (planeta) + lua, desenhados em <canvas>
+   ============================================================ */
+(() => {
+  const box = document.getElementById('galaxia');
+  const cv = box.querySelector('canvas');
+  const ctx = cv.getContext('2d');
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TAU = Math.PI * 2;
+
+  /* ---------- ruído 3D (para gerar continentes) ---------- */
+  function hash(x, y, z) {
+    let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(z, 1274126177);
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  }
+  const suave = t => t * t * (3 - 2 * t);
+  const mix = (a, b, t) => a + (b - a) * t;
+  function ruido(x, y, z) {
+    const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    const xf = suave(x - xi), yf = suave(y - yi), zf = suave(z - zi);
+    return mix(
+      mix(mix(hash(xi, yi, zi), hash(xi + 1, yi, zi), xf), mix(hash(xi, yi + 1, zi), hash(xi + 1, yi + 1, zi), xf), yf),
+      mix(mix(hash(xi, yi, zi + 1), hash(xi + 1, yi, zi + 1), xf), mix(hash(xi, yi + 1, zi + 1), hash(xi + 1, yi + 1, zi + 1), xf), yf),
+      zf);
+  }
+  function fbm(x, y, z, semente) {
+    let a = 0.5, s = 0, f = 1;
+    for (let i = 0; i < 5; i++) {
+      s += a * ruido(x * f + semente, y * f + semente * 1.7, z * f + semente * 0.3);
+      f *= 2.03; a *= 0.5;
+    }
+    return s / 0.96875;
+  }
+
+  /* textura equirretangular gerada uma vez só */
+  const TW = 256, TH = 128;
+  function criarTextura(semente, freq) {
+    const t = new Float32Array(TW * TH);
+    for (let v = 0; v < TH; v++) {
+      const lat = (0.5 - v / TH) * Math.PI, cl = Math.cos(lat), y = Math.sin(lat);
+      for (let u = 0; u < TW; u++) {
+        const lon = (u / TW - 0.5) * TAU;
+        t[v * TW + u] = fbm(cl * Math.sin(lon) * freq, y * freq, cl * Math.cos(lon) * freq, semente);
+      }
+    }
+    return t;
+  }
+
+  /* ---------- rampa de caracteres (do mais leve ao mais denso) ---------- */
+  const RAMPA = " .:-=+/ovsSYHNM#@";
+
+  function paleta(matiz, sat) {
+    return Array.from({ length: 16 }, (_, k) => `hsl(${matiz},${sat}%,${34 + (k / 15) * 46}%)`);
+  }
+
+  function criarGlobo(o) {
+    return Object.assign({
+      rot: 0, tex: criarTextura(o.semente, o.freq),
+      palTerra: paleta(o.matizT, o.satT), palMar: paleta(o.matizM, o.satM),
+      baldes: Array.from({ length: 32 }, () => [])
+    }, o);
+  }
+
+  const planeta = criarGlobo({ semente: 3.1, freq: 2.2, limiar: 0.5, matizT: 112, satT: 82, matizM: 208, satM: 92, incl: 0.38, giro: 0.10, borda: true });
+  const lua     = criarGlobo({ semente: 9.7, freq: 3.4, limiar: 0.5, matizT: 34, satT: 40, matizM: 28,  satM: 34, incl: 0.10, giro: 0.05, borda: false });
+
+  /* ---------- layout (muda com o tamanho do banner) ---------- */
+  let W, H, dpr, L;
+  function medir() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = box.clientWidth; H = box.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (W >= 820) {
+      const R = Math.min(H * 0.64, W * 0.34), r = Math.max(26, H * 0.075);
+      L = { px: W - R * 0.62, py: H * 0.80, R, mx: W - R * 0.62 - R * 1.02, my: H * 0.20, mr: r, alfa: 1 };
+    } else {
+      const R = Math.min(W * 0.60, H * 0.40);
+      L = { px: W * 0.74, py: H - R * 0.30, R, mx: W * 0.86, my: H * 0.09, mr: Math.max(20, H * 0.04), alfa: 0.6 };
+    }
+  }
+  medir();
+  new ResizeObserver(medir).observe(box);
+
+  /* ---------- desenho de um globo ASCII ---------- */
+  const Lx = -0.55, Ly = 0.45, Lz = 0.70;   // direção da luz
+  function desenharGlobo(g, cx, cy, R, fs, t) {
+    const cw = fs * 0.62, chh = fs * 1.08;
+    const ct = Math.cos(g.incl), st = Math.sin(g.incl), cr = Math.cos(g.rot), sr = Math.sin(g.rot);
+    const colunas = Math.ceil(2 * R / cw), linhas = Math.ceil(2 * R / chh);
+    const quadro = Math.floor(t * 4);
+
+    // halo, disco escuro (esconde as estrelas atrás) e depois os caracteres
+    const halo = ctx.createRadialGradient(cx, cy, R * 0.9, cx, cy, R * 1.3);
+    halo.addColorStop(0, `hsla(${g.matizM},90%,65%,.55)`);
+    halo.addColorStop(1, `hsla(${g.matizM},80%,60%,0)`);
+    ctx.fillStyle = halo;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 1.3, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(3,3,12,.92)';
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.fill();
+
+    for (let j = 0; j < linhas; j++) {
+      const gy = -R + (j + 0.5) * chh, py = cy + gy;
+      if (py < -chh || py > H + chh) continue;
+      const ny = -gy / R;
+      for (let i = 0; i < colunas; i++) {
+        const gx = -R + (i + 0.5) * cw, px = cx + gx;
+        if (px < -cw || px > W + cw) continue;
+        const nx = gx / R, r2 = nx * nx + ny * ny;
+        if (r2 >= 0.985) continue;
+        const nz = Math.sqrt(1 - r2);
+
+        // luz
+        const dif = nx * Lx + ny * Ly + nz * Lz;
+        const lum = (0.30 + 0.70 * (dif > 0 ? dif : 0)) * (0.78 + 0.22 * nz);
+
+        // posição na textura (inclina e gira o globo)
+        const y1 = ny * ct - nz * st, z1 = ny * st + nz * ct;
+        const x2 = nx * cr + z1 * sr, z2 = -nx * sr + z1 * cr;
+        const lon = Math.atan2(x2, z2), lat = Math.asin(Math.max(-1, Math.min(1, y1)));
+        const u = Math.min(TW - 1, ((lon / TAU + 0.5) * TW) | 0);
+        const v = Math.min(TH - 1, ((0.5 - lat / Math.PI) * TH) | 0);
+        const h = g.tex[v * TW + u];
+
+        const terra = h > g.limiar;
+        let dens = terra ? 0.40 + 0.70 * lum + (h - g.limiar) * 0.9 : 0.14 + 0.78 * lum;
+        let idx = Math.round(Math.max(0, Math.min(1, dens)) * (RAMPA.length - 1));
+        if (!calmo && hash(i, j, quadro) < 0.10) idx -= 1;   // cintilar
+        if (idx <= 0) continue;
+
+        const k = Math.min(15, (lum * 16) | 0);
+        g.baldes[(terra ? 16 : 0) + k].push(px, py, RAMPA[idx]);
+      }
+    }
+
+    ctx.font = `bold ${fs}px "Courier New", Courier, monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.globalAlpha = L.alfa;
+    for (let k = 0; k < 32; k++) {
+      const b = g.baldes[k];
+      if (!b.length) continue;
+      ctx.fillStyle = k < 16 ? g.palMar[k] : g.palTerra[k - 16];
+      for (let n = 0; n < b.length; n += 3) ctx.fillText(b[n + 2], b[n], b[n + 1]);
+      b.length = 0;
+    }
+    ctx.globalAlpha = 1;
+
+    // borda branca do planeta
+    ctx.lineWidth = Math.max(1.2, R / 200);
+    if (g.borda) {
+      ctx.strokeStyle = 'rgba(255,255,255,.92)';
+      ctx.shadowColor = 'rgba(168,180,255,.95)'; ctx.shadowBlur = 30;
+    } else {
+      ctx.strokeStyle = 'rgba(255,255,255,.18)';
+    }
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  /* ---------- estrelas ---------- */
+  const fundo = Array.from({ length: 170 }, () => ({
+    x: Math.random(), y: Math.random(), z: Math.random() * 1.6 + 0.4,
+    o: 0.3 + Math.random() * 0.7, v: 0.5 + Math.random() * 2, p: Math.random() * TAU
+  }));
+
+  /* leve parallax com o mouse */
+  let mouseX = 0.5, suaveX = 0.5;
+  box.addEventListener('pointermove', e => { mouseX = e.clientX / innerWidth; });
+
+  /* só anima enquanto o banner está visível */
+  let visivel = true;
+  new IntersectionObserver(([e]) => { visivel = e.isIntersecting; }).observe(box);
+
+  const t0 = performance.now();
+  let ultimo = 0;
+  (function loop(agora) {
+    requestAnimationFrame(loop);
+    if (!visivel || agora - ultimo < 33) return;   // ~30 fps
+    ultimo = agora;
+    const t = (agora - t0) / 1000;
+    suaveX += (mouseX - suaveX) * 0.05;
+
+    ctx.clearRect(0, 0, W, H);
+    for (const s of fundo) {
+      const a = calmo ? s.o : (0.3 + 0.7 * Math.abs(Math.sin(t * s.v * 0.5 + s.p))) * s.o;
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.fillRect(s.x * W, s.y * H, s.z, s.z);
+    }
+
+    planeta.rot = (calmo ? 0.6 : t * planeta.giro) + (suaveX - 0.5) * 0.6;
+    lua.rot     = (calmo ? 1.0 : t * lua.giro + 1);
+
+    const fsP = Math.max(8, Math.min(13, L.R / 52));
+    const fsL = Math.max(5.5, Math.min(8, L.mr / 7));
+    desenharGlobo(lua, L.mx, L.my, L.mr, fsL, t);
+    desenharGlobo(planeta, L.px, L.py, L.R, fsP, t);
+  })(t0);
+})();
+
+/* ============================================================
+   Navbar: marca o link da seção que está na tela
+   ============================================================ */
+(() => {
+  const links = [...document.querySelectorAll('header .nav-link')];
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  links.forEach(l => { const s = document.querySelector(l.getAttribute('href')); if (s) obs.observe(s); });
+})();
+</script>
+</body>
+</html>

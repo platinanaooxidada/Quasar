@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Astrofísica · Astronomia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<header>
+  <ul class="nav">
+    <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="biblioteca.html">Biblioteca</a></li>
+    <li class="nav-item"><a class="nav-link" href="intera-o-sistema-solar-main/sistema-solar.html">Sistema Solar</a></li>
+    <li class="nav-item"><a class="nav-link" href="bigbang.html">Big Bang</a></li>
+    <li class="nav-item"><a class="nav-link" href="expedições.html">Expedições</a></li>
+    <li class="nav-item"><a class="nav-link" href="astrofisica.html">Astrofísica</a></li>
+    <li class="nav-item"><a class="nav-link" href="foguetes.html">Foguetes</a></li>
+    <li class="nav-item"><a class="nav-link" href="introjogo.html">Jogar</a></li>
+  </ul>
+</header>
+
+
+<style>
+  /* =========================================================
+     BASE DA PÁGINA
+     fundo: quase preto com brilhos roxos e laranjas (igual ao home e à biblioteca)
+     ========================================================= */
+  :root {
+    --lilac: #d3b8ff;
+    --lilac-line: rgba(190, 160, 245, .22);
+    --cream: #f3dfa6;
+    --orange: #e0892f;
+    --red: #e8281f;
+    --panel: #0b0b12;
+    --display: "Playfair Display", Georgia, serif;
+    --body: "Inter", system-ui, sans-serif;
+  }
+
+  html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+    background-color: #05030a;
+    background-image:
+      radial-gradient(ellipse 45% 9% at 85% 14%, rgba(130, 80, 210, .15), transparent 100%),
+      radial-gradient(ellipse 45% 9% at 10% 40%, rgba(224, 137, 47, .07), transparent 100%),
+      radial-gradient(ellipse 45% 9% at 88% 66%, rgba(120, 70, 190, .13), transparent 100%),
+      radial-gradient(ellipse 45% 8% at 12% 88%, rgba(224, 137, 47, .06), transparent 100%),
+      linear-gradient(180deg, #05040a 0, #0a0613 50%, #04030a 100%);
+  }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: transparent;
+    color: #d6dcff;
+    font-family: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  /* ---------- Navbar ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(3, 3, 10, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(168, 180, 255, 0.2);
+    padding: 0 1rem;
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+  header .nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: .25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    overflow-x: auto;
+  }
+  header .nav-item { margin: 0; }
+  header .nav-link {
+    display: block;
+    padding: .95rem 1rem;
+    color: #b8c0e8;
+    text-decoration: none;
+    font-size: .95rem;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  header .nav-link:hover {
+    color: #fff;
+    background: rgba(100, 90, 180, 0.2);
+    border-bottom-color: #a8b4ff;
+  }
+  header .nav-link.active {
+    color: #fff;
+    border-bottom-color: #c4b5fd;
+  }
+  header .nav-link:focus-visible {
+    outline: 2px solid #a8b4ff;
+    outline-offset: -2px;
+  }
+  section { scroll-margin-top: 60px; }
+
+  /* ---------- Banner (hero) ---------- */
+  #galaxia {
+    position: relative;
+    width: 100%;
+    height: 86vh;
+    min-height: 620px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 75% 90%, rgba(70, 60, 150, .35) 0%, rgba(3,3,10,0) 60%),
+      radial-gradient(ellipse at center, #0d0d30 0%, #03030a 78%);
+  }
+  #galaxia canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* bordas laranja do banner (só nas horizontais, igual ao laranja dos cards) */
+  #galaxia::before,
+  #galaxia::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(224, 137, 47, .6);
+    z-index: 3;
+    pointer-events: none;
+  }
+  #galaxia::before { top: 0; }
+  #galaxia::after { bottom: 0; }
+  #galaxia .hero {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    max-width: min(58%, 820px);
+    padding: 0 0 0 6vw;
+    pointer-events: none;
+    font-family: "Work Sans", system-ui, sans-serif;
+  }
+  #galaxia p { line-height: 1.6; }
+  #galaxia .kicker {
+    margin: 0 0 1.2rem;
+    font-size: clamp(13px, 1.3vw, 17px);
+    letter-spacing: .08em;
+    color: #e8ebff;
+    opacity: .9;
+  }
+  #galaxia h1 {
+    margin: 0 0 1.2rem;
+    font-family: "DM Serif Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(44px, 7.4vw, 112px);
+    line-height: 1.02;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 30px rgba(0,0,0,.7), 0 0 60px rgba(124,108,255,.35);
+  }
+  #galaxia .descricao {
+    margin: 0;
+    max-width: 520px;
+    font-size: clamp(13px, 1.15vw, 16px);
+    line-height: 1.6;
+    color: #dfe3ff;
+    opacity: .9;
+  }
+
+  @media (max-width: 819px) {
+    #galaxia { min-height: 680px; }
+    #galaxia .hero {
+      max-width: 100%;
+      padding: 0 6vw;
+      justify-content: flex-start;
+      padding-top: 11vh;
+    }
+    #galaxia h1 { font-size: clamp(40px, 12.5vw, 76px); }
+  }
+
+  /* =========================================================
+     CONTEÚDO DO ARTIGO
+     ========================================================= */
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 3.2rem 1.25rem 2rem;
+    font-family: var(--body);
+  }
+
+  /* cada seção vira um painel com a moldura retrô dos cards */
+  section {
+    position: relative;
+    margin-bottom: 0;
+    padding: clamp(1.5rem, 3.4vw, 2.6rem);
+    background: linear-gradient(180deg, #11122200, #0a0b14), #0c0f19;
+    border: 1.5px solid rgba(243, 223, 166, .5);
+    border-radius: 14px;
+  }
+  section::before,
+  section::after {
+    content: "";
+    position: absolute;
+    height: 4px;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  section::before {
+    top: -3px;
+    left: 30px;
+    width: 30px;
+    background: var(--orange);
+  }
+  section::after {
+    bottom: -3px;
+    right: 36px;
+    width: 24px;
+    background: var(--red);
+  }
+
+  h2 {
+    margin: 0 0 1.5rem;
+    padding-bottom: .95rem;
+    color: var(--cream);
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(26px, 3.6vw, 38px);
+    line-height: 1.12;
+    letter-spacing: 0;
+    border: 0;
+    background:
+      linear-gradient(var(--orange), var(--orange)) 0 100% / 44px 3px no-repeat,
+      linear-gradient(90deg, rgba(211, 184, 255, .32), transparent) 0 100% / 100% 1px no-repeat;
+  }
+  h3 {
+    margin: 2rem 0 .7rem;
+    color: #fff;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(21px, 2.4vw, 26px);
+    line-height: 1.2;
+  }
+  h4 {
+    margin: .8rem 0;
+    color: #cfc9d9;
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+  h4 strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+  main p {
+    margin: .9rem 0;
+    color: #d6d0ca;
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.85;
+    opacity: 1;
+  }
+  main p strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  em {
+    color: #bfb7d2;
+    opacity: 1;
+  }
+
+  /* listas com marcador em losango (o mesmo do logo) */
+  main ul {
+    margin: 1rem 0 1.4rem;
+    padding: 0;
+    list-style: none;
+    color: #cfc9d9;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  main li {
+    position: relative;
+    margin-bottom: .65rem;
+    padding-left: 1.5rem;
+  }
+  main li::before {
+    content: "";
+    position: absolute;
+    left: .1rem;
+    top: .62em;
+    width: 7px;
+    height: 7px;
+    background: var(--orange);
+    transform: rotate(45deg);
+  }
+  main li strong {
+    color: var(--lilac);
+    font-weight: 600;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.4rem auto;
+    border-radius: 12px;
+    border: 1.5px solid rgba(243, 223, 166, .45);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, .5);
+  }
+
+  /* separador entre painéis */
+  hr {
+    border: 0;
+    height: 1px;
+    margin: 2.4rem 0;
+    background: linear-gradient(90deg, transparent, rgba(211, 184, 255, .38), transparent);
+  }
+
+  /* tabelas */
+  table {
+    width: 100%;
+    margin: 1.2rem 0 1.6rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1.5px solid rgba(190, 160, 245, .4);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: var(--body);
+    font-size: .94rem;
+  }
+  th, td {
+    padding: .75rem .95rem;
+    text-align: left;
+    border: 0;
+    border-bottom: 1px solid var(--lilac-line);
+    line-height: 1.55;
+  }
+  thead {
+    background: rgba(96, 66, 168, .5);
+  }
+  th {
+    color: #f1e8ff;
+    font-weight: 600;
+    font-size: .85rem;
+    letter-spacing: .02em;
+    border-bottom: 1px solid rgba(211, 184, 255, .4);
+  }
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  tbody tr:nth-child(even) {
+    background: rgba(190, 160, 245, .05);
+  }
+  tbody tr {
+    transition: background .2s ease;
+  }
+  tbody tr:hover {
+    background: rgba(224, 137, 47, .09);
+  }
+  td {
+    color: #d0cad8;
+    font-weight: 300;
+  }
+  td:first-child {
+    color: var(--orange);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  td strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+
+  footer {
+    padding: 1.6rem 1rem 2.4rem;
+    text-align: center;
+    color: #7b7f96;
+    font-family: var(--body);
+    font-size: .85rem;
+    opacity: 1;
+  }
+  footer p {
+    margin: 0;
+    color: inherit;
+    font-weight: 400;
+    font-size: inherit;
+  }
+
+  @media (max-width: 640px) {
+    main { padding: 2rem .9rem 1.2rem; }
+    section { padding: 1.4rem 1.1rem; }
+    table { display: block; overflow-x: auto; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+
+
+<!--banner-->
+<div id="galaxia">
+  <canvas aria-hidden="true"></canvas>
+  <div class="hero">
+    <p class="kicker">Semana do DS · Astronomia</p>
+    <h1>Astrofísica</h1>
+    <p class="descricao">Como as leis da física ajudam a entender estrelas, planetas e galáxias</p>
+  </div>
+</div>
+
+<main>
+
+  <!--conceito-->
+  <section id="conceito">
+    <h2>Conceito da Astrofísica</h2>
+    <p>A Astrofísica é o ramo da física e da astronomia que estuda o universo através da aplicação das leis e conceitos da física, como a luminosidade, densidade, temperatura e composição química, de diversos objetos astronômicos como as estrelas, planetas, galáxias e o meio interestelar.</p>
+    <img src="gravidade.png" alt="Astrofísica">
+
+    <h3>Principais Métodos da Astrofísica</h3>
+    <p>Os principais métodos da astrofísica dividem-se em três pilares complementares que permitem investigar o universo, já que não é possível manipular os astros em laboratório:</p>
+
+    <h4><strong>Espectroscopia (Composição Química e Atmosferas)</strong></h4>
+    <ul>
+      <li><strong>Como a Espectroscopia funciona:</strong> A luz solar refletida pela superfície ou pela atmosfera de um planeta é decomposta em um espectro. Cada elemento químico absorve ou emite luz em comprimentos de onda específicos.</li>
+      <li><strong>Exemplo:</strong> Através da espectroscopia infravermelha, a astrofísica identificou a presença de dióxido de carbono (CO2), dióxido de enxofre e nuvens de ácido sulfúrico na densa atmosfera de Vênus, além de detectar metano e gelo de água nas camadas superiores de Urano e Netuno.</li>
+    </ul>
+
+    <h4><strong>Termodinâmica e Leis da Radiação (Temperaturas e Efeito Estufa)</strong></h4>
+    <ul>
+      <li><strong>Como a Termodinâmica funciona:</strong> Mede-se a radiação térmica emitida e refletida pelo planeta para calcular balanços de energia e temperaturas de superfície.</li>
+      <li><strong>Exemplo:</strong> Embora Mercúrio esteja mais próximo do Sol, a aplicação da física de atmosferas e do efeito estufa explica por que Vênus é o planeta mais quente do Sistema Solar (com temperaturas superficiais próximas a 460 °C), retendo calor devido à sua espessa camada de gases.</li>
+    </ul>
+
+    <h4><strong>Fotometria e Modelagem de Impactos (Superfícies e Crateras)</strong></h4>
+    <ul>
+      <li><strong>Como a Fotometria funciona:</strong> Analisa-se como a superfície reflete a luz em diferentes ângulos e comprimentos de onda para estimar a rugosidade, a idade relativa do solo e a presença de gelo ou minerais.</li>
+      <li><strong>Exemplo:</strong> Em Mercúrio e na Lua, a contagem e a análise espectral de crateras de impacto permitem datar geologicamente as superfícies e entender o histórico de bombardeio de asteroides no início do Sistema Solar.</li>
+    </ul>
+
+    <h4><strong>Outros Exemplos</strong></h4>
+    <ul>
+      <li><strong>Física Gravitacional:</strong> A partir da massa do planeta e do seu raio, determina-se a densidade média do planeta.</li>
+      <li><strong>Magnetohidrodinâmica:</strong> Estuda o movimento de fluidos condutores no interior dos planetas para entender a geração de magnetosfera.</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!--teorica-->
+  <section id="teorica">
+    <h2>Astrofísica Teórica</h2>
+    <img src="galaxias.png" alt="Astrofísica">
+    <p>Utiliza modelos matemáticos, equações da física (como a mecânica quântica, a termodinâmica, o eletromagnetismo e a relatividade geral de Einstein) para explicar os fenômenos observados e prever novos comportamentos no cosmos:</p>
+    <ul>
+      <li>A partir da massa do planeta e do seu raio, determina-se a densidade média do planeta.</li>
+      <li>Estuda o movimento de fluidos condutores no interior dos planetas para entender a geração de magnetosfera.</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!--simulacoes-->
+  <section id="simulacoes">
+    <h2>Simulações Computacionais</h2>
+    <img src="olho.png" alt="Astrofísica">
+    <p>Como substituto dos experimentos de laboratório, supercomputadores rodam simulações numéricas complexas para recriar eventos que levam milhões ou bilhões de anos para acontecer:</p>
+    <ul>
+      <li>Modelagem da formação de galáxias, colisão de aglomerados e o colapso gravitacional de nuvens de gás para gerar novos sistemas planetários (teoria nebular).</li>
+    </ul>
+  </section>
+</main>
+
+<hr>
+<footer>
+  <p>Semana do DS: Astronomia · Astrofísica</p>
+</footer>
+
+
+<script>
+/*Banner: telescópio ASCII girando de um lado para o outro, desenhado em <canvas>*/
+(() => {
+  const box = document.getElementById('galaxia');
+  const cv = box.querySelector('canvas');
+  const ctx = cv.getContext('2d');
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TAU = Math.PI * 2;
+
+  /*rampa de caracteres (do mais leve ao mais denso)*/
+  const RAMPA = " .:-=+/ovsSYHNM#@";
+
+  /*ruido simples para cintilar*/
+  function hash(x, y, z) {
+    let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(z, 1274126177);
+    h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  }
+  const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+
+  /*materiais: albedo (quanto reflete), matiz, saturação e brilho "espelhado"*/
+  const MAT = [
+    { alb: 1.00, h: 215, s: 38, esp: 0.55 },   // 0 tubo branco
+    { alb: 0.34, h: 258, s: 45, esp: 0.15 },   // 1 faixas pretas
+    { alb: 0.80, h: 228, s: 22, esp: 0.45 },   // 2 metal (tripé)
+    { alb: 0.62, h: 268, s: 32, esp: 0.30 },   // 3 montagem
+    { alb: 0.92, h: 205, s: 40, esp: 0.50 },   // 4 luneta buscadora
+    { alb: 0.55, h: 250, s: 30, esp: 0.35 }    // 5 ocular
+  ];
+  const NIV = 12;                               // níveis de brilho por material
+  const PAL = MAT.map(m => Array.from({ length: NIV }, (_, k) => `hsl(${m.h},${m.s}%,${28 + (k / (NIV - 1)) * 62}%)`));
+  const baldes = Array.from({ length: MAT.length * NIV }, () => []);
+
+  /*layout (muda com o tamanho do banner)*/
+  let W, H, dpr, L;
+  function medir() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = box.clientWidth; H = box.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (W >= 820) {
+      const S = Math.min(H * 0.86 / 3.25, W * 0.20);     // S = tamanho de 1 unidade da cena, em pixels
+      L = { cx: W * 0.72, cy: H * 0.52, S, fs: clamp(S / 17, 7, 11), alfa: 1 };
+    } else {
+      const S = W * 0.22;
+      L = { cx: W * 0.5, cy: H - 14 - 1.6 * S, S, fs: clamp(S / 12, 6, 9), alfa: 0.85 };
+    }
+  }
+  medir();
+  new ResizeObserver(medir).observe(box);
+
+  /*estrelas*/
+  const fundo = Array.from({ length: 170 }, () => ({
+    x: Math.random(), y: Math.random(), z: Math.random() * 1.6 + 0.4,
+    o: 0.3 + Math.random() * 0.7, v: 0.5 + Math.random() * 2, p: Math.random() * TAU
+  }));
+
+  /*leve giro extra com o mouse*/
+  let mouseX = 0.5, suaveX = 0.5;
+  box.addEventListener('pointermove', e => { mouseX = e.clientX / innerWidth; });
+
+  /*câmera: um pouco acima, olhando levemente para baixo*/
+  const PIT = 0.14, cp = Math.cos(PIT), sp = Math.sin(PIT);
+  const vista = (x, y, z) => [x, y * cp - z * sp, y * sp + z * cp];
+
+  /*luz (direção em coordenadas da câmera) e vetor "meio" para o brilho espelhado*/
+  const Ln = Math.hypot(-0.45, 0.65, 0.62), Lx = -0.45 / Ln, Ly = 0.65 / Ln, Lz = 0.62 / Ln;
+  const Hn = Math.hypot(Lx, Ly, Lz + 1), Hx = Lx / Hn, Hy = Ly / Hn, Hz = (Lz + 1) / Hn;
+
+  /*monta a cena: uma lista de cilindros (início, fim, raio, material)*/
+  function montarCena(t) {
+    const w = TAU / 14;                                              // um vai-e-vem completo a cada 14 s
+    const phi = -Math.PI / 2 + 1.25 * Math.sin(w * t) + (suaveX - 0.5) * 0.35;   // giro (azimute)
+    const th = 0.95 + 0.12 * Math.sin(0.7 * w * t + 1);              // inclinação do tubo (elevação)
+    const cph = Math.cos(phi), sph = Math.sin(phi), cth = Math.cos(th), sth = Math.sin(th);
+
+    const d = [cth * cph, sth, cth * sph];                           // para onde o tubo aponta
+    const u = [-sth * cph, cth, -sth * sph];                         // "para cima" do tubo
+    const h = [-sph, 0, cph];                                        // lado (eixo da montagem)
+
+    const cena = [];
+    const add = (A, B, r, m) => {
+      const a = vista(A[0], A[1], A[2]), b = vista(B[0], B[1], B[2]);
+      let dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2];
+      const len = Math.hypot(dx, dy, dz);
+      if (len < 1e-6) return;
+      dx /= len; dy /= len; dz /= len;
+      cena.push({
+        ax: a[0], ay: a[1], az: a[2], dx, dy, dz, len, r, m,
+        x0: Math.min(a[0], b[0]) - r, x1: Math.max(a[0], b[0]) + r,
+        y0: Math.min(a[1], b[1]) - r, y1: Math.max(a[1], b[1]) + r
+      });
+    };
+    const P = (o, v, k) => [o[0] + v[0] * k, o[1] + v[1] * k, o[2] + v[2] * k];
+
+    /*tripé (fixo)*/
+    const T = [0, -0.35, 0];
+    for (const ang of [Math.PI / 6, Math.PI * 5 / 6, Math.PI * 1.5]) {
+      const F = [0.82 * Math.cos(ang), -1.65, 0.82 * Math.sin(ang)];
+      const M = [T[0] + (F[0] - T[0]) * 0.52, T[1] + (F[1] - T[1]) * 0.52, T[2] + (F[2] - T[2]) * 0.52];
+      add(T, M, 0.058, 2);
+      add(M, F, 0.042, 2);
+    }
+    add([0, -0.97, 0], [0, -0.93, 0], 0.26, 2);                      // bandeja
+
+    /*montagem (gira junto com o tubo)*/
+    const P0 = [0, 0.15, 0];
+    const Q = P(P0, u, 0.17);                                        // eixo do tubo
+    add(T, P0, 0.10, 3);                                             // coluna
+    add(P(P0, h, -0.20), P(P0, h, 0.20), 0.085, 3);                  // eixo de altura
+    add(P0, Q, 0.065, 3);                                            // apoio do tubo
+
+    /*tubo principal*/
+    add(P(Q, d, -0.50), P(Q, d, -0.30), 0.152, 1);                   // traseira (preta)
+    add(P(Q, d, -0.30), P(Q, d, 0.78), 0.150, 0);                    // corpo branco
+    add(P(Q, d, 0.30), P(Q, d, 0.40), 0.157, 1);                     // faixa preta do meio
+    add(P(Q, d, 0.78), P(Q, d, 0.86), 0.158, 1);                     // faixa preta da frente
+    add(P(Q, d, 0.86), P(Q, d, 1.30), 0.132, 0);                     // pára-sol branco
+
+    /*ocular (diagonal, embaixo e atrás)*/
+    const R0 = P(Q, d, -0.40);
+    let e = [-0.30 * d[0] - 0.90 * u[0], -0.30 * d[1] - 0.90 * u[1], -0.30 * d[2] - 0.90 * u[2]];
+    const en = Math.hypot(e[0], e[1], e[2]); e = [e[0] / en, e[1] / en, e[2] / en];
+    const E1 = P(R0, e, 0.30);
+    add(R0, E1, 0.048, 5);
+    add(E1, P(E1, e, 0.12), 0.062, 5);
+
+    /*luneta buscadora (em cima, ao lado do tubo) e seus suportes*/
+    const o = [u[0] * 0.27 - h[0] * 0.17, u[1] * 0.27 - h[1] * 0.17, u[2] * 0.27 - h[2] * 0.17];
+    const on = Math.hypot(o[0], o[1], o[2]), ou = [o[0] / on, o[1] / on, o[2] / on];
+    const F0 = [Q[0] + o[0], Q[1] + o[1], Q[2] + o[2]];
+    add(P(F0, d, -0.10), P(F0, d, 0.46), 0.045, 4);
+    add(P(F0, d, 0.46), P(F0, d, 0.54), 0.056, 4);
+    add(P(F0, d, -0.18), P(F0, d, -0.10), 0.050, 4);
+    for (const tb of [0.02, 0.34]) {
+      add(P(P(Q, d, tb), ou, 0.13), P(F0, d, tb), 0.022, 2);
+    }
+    return cena;
+  }
+
+  /*desenha o telescópio: lança um raio por célula e escolhe a letra pelo brilho*/
+  function desenharTelescopio(t) {
+    const { cx, cy, S, fs } = L;
+    const cw = fs * 0.62, chh = fs * 1.08;
+    const cena = montarCena(t);
+    const quadro = Math.floor(t * 5);
+
+    // halo suave atrás
+    const halo = ctx.createRadialGradient(cx, cy, S * 0.3, cx, cy, S * 2.4);
+    halo.addColorStop(0, 'rgba(150,120,255,.16)');
+    halo.addColorStop(1, 'rgba(100,90,200,0)');
+    ctx.fillStyle = halo;
+    ctx.beginPath(); ctx.arc(cx, cy, S * 2.4, 0, TAU); ctx.fill();
+
+    const i0 = Math.floor(-1.45 * S / cw), i1 = Math.ceil(1.45 * S / cw);
+    const j0 = Math.floor(-1.85 * S / chh), j1 = Math.ceil(1.85 * S / chh);
+
+    for (let j = j0; j <= j1; j++) {
+      const py = cy + j * chh;
+      if (py < -chh || py > H + chh) continue;
+      const vy = (cy - py) / S - 0.2;                                // posição vertical no mundo da câmera
+      for (let i = i0; i <= i1; i++) {
+        const px = cx + i * cw;
+        if (px < -cw || px > W + cw) continue;
+        const vx = (px - cx) / S;
+
+        let melhor = 1e9, nx = 0, ny = 0, nz = 0, mat = -1;
+        for (let k = 0; k < cena.length; k++) {
+          const c = cena[k];
+          if (vx < c.x0 || vx > c.x1 || vy < c.y0 || vy > c.y1) continue;
+
+          // lado do cilindro (raio vindo da câmera, na direção -z)
+          const wx = vx - c.ax, wy = vy - c.ay, wz = 10 - c.az;
+          const a2 = 1 - c.dz * c.dz;
+          if (a2 > 1e-6) {
+            const wa = wx * c.dx + wy * c.dy + wz * c.dz;
+            // D' = D - (D·a)a, com D = (0,0,-1)  =>  (dz·dx, dz·dy, dz² - 1)
+            const Dx = c.dz * c.dx, Dy = c.dz * c.dy, Dz = c.dz * c.dz - 1;
+            const bb = Dx * wx + Dy * wy + Dz * wz;
+            const cc = wx * wx + wy * wy + wz * wz - wa * wa - c.r * c.r;
+            const disc = bb * bb - a2 * cc;
+            if (disc >= 0) {
+              const tt = (-bb - Math.sqrt(disc)) / a2;
+              if (tt > 0 && tt < melhor) {
+                const pz = 10 - tt;
+                const s = (vx - c.ax) * c.dx + (vy - c.ay) * c.dy + (pz - c.az) * c.dz;
+                if (s >= 0 && s <= c.len) {
+                  melhor = tt; mat = c.m;
+                  nx = (vx - c.ax - s * c.dx) / c.r;
+                  ny = (vy - c.ay - s * c.dy) / c.r;
+                  nz = (pz - c.az - s * c.dz) / c.r;
+                }
+              }
+            }
+          }
+          // tampas das pontas
+          if (Math.abs(c.dz) > 1e-6) {
+            for (let lado = 0; lado < 2; lado++) {
+              const s0 = lado ? c.len : 0;
+              const Cx = c.ax + c.dx * s0, Cy = c.ay + c.dy * s0, Cz = c.az + c.dz * s0;
+              const sg = lado ? 1 : -1;                              // normal da tampa: +eixo no fim, -eixo no início
+              const den = -sg * c.dz;                                // D · n  (D = (0,0,-1))
+              const tt = ((Cz - 10) * sg * c.dz) / den;              // plano: (C - O) · n / (D · n)
+              if (tt > 0 && tt < melhor) {
+                const pz = 10 - tt;
+                const ex = vx - Cx, ey = vy - Cy, ez = pz - Cz;
+                if (ex * ex + ey * ey + ez * ez <= c.r * c.r) {
+                  melhor = tt; mat = c.m; nx = sg * c.dx; ny = sg * c.dy; nz = sg * c.dz;
+                }
+              }
+            }
+          }
+        }
+        if (mat < 0) continue;
+
+        const m = MAT[mat];
+        const dif = Math.max(0, nx * Lx + ny * Ly + nz * Lz);
+        const esp = Math.pow(Math.max(0, nx * Hx + ny * Hy + nz * Hz), 28);
+        const borda = Math.pow(1 - Math.abs(nz), 2.5) * 0.22;
+        const lum = clamp((0.20 + 0.80 * dif) * m.alb + m.esp * esp * 0.7 + borda * m.alb, 0, 1);
+
+        let idx = Math.max(1, Math.round(lum * (RAMPA.length - 1)));
+        if (!calmo && hash(i, j, quadro) < 0.06) idx = Math.max(1, idx - 1);   // cintilar
+        baldes[mat * NIV + Math.min(NIV - 1, (lum * NIV) | 0)].push(px, py, RAMPA[idx]);
+      }
+    }
+
+    ctx.font = `bold ${fs}px "Courier New", Courier, monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.globalAlpha = L.alfa;
+    for (let k = 0; k < baldes.length; k++) {
+      const b = baldes[k];
+      if (!b.length) continue;
+      ctx.fillStyle = PAL[(k / NIV) | 0][k % NIV];
+      for (let n = 0; n < b.length; n += 3) ctx.fillText(b[n + 2], b[n], b[n + 1]);
+      b.length = 0;
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* só anima enquanto o banner está visível */
+  let visivel = true;
+  new IntersectionObserver(([e]) => { visivel = e.isIntersecting; }).observe(box);
+
+  const t0 = performance.now();
+  let ultimo = 0;
+  (function loop(agora) {
+    requestAnimationFrame(loop);
+    if (!visivel || agora - ultimo < 33) return;   // ~30 fps
+    ultimo = agora;
+    const t = calmo ? 3 : (agora - t0) / 1000;
+    suaveX += (mouseX - suaveX) * 0.05;
+
+    ctx.clearRect(0, 0, W, H);
+    for (const s of fundo) {
+      const a = calmo ? s.o : (0.3 + 0.7 * Math.abs(Math.sin(t * s.v * 0.5 + s.p))) * s.o;
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.fillRect(s.x * W, s.y * H, s.z, s.z);
+    }
+    desenharTelescopio(t);
+  })(t0);
+})();
+</script>
+</body>
+</html>

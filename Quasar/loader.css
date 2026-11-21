@@ -1,0 +1,119 @@
+.sv-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(90, 185, 255, 0.14),
+    #04060c 68%
+  );
+  color: var(--sv-cream, #f2eee4);
+  text-align: center;
+}
+.sv-loader[hidden] {
+  display: none;
+}
+
+.sv-loader__panel {
+  width: 100%;
+  max-width: 500px;
+  padding: 18px 16px 20px;
+  border-radius: 18px;
+  border: 1.5px solid rgba(132, 185, 172, 0.35);
+  background: rgba(8, 11, 19, 0.92);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sv-loader__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(125, 205, 255, 0.25);
+  background: #020307;
+}
+
+.sv-loader__row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.sv-loader__status {
+  margin: 0;
+  color: #8fd3ff;
+  text-transform: uppercase;
+}
+.sv-loader__status.is-ready {
+  color: var(--sv-teal, #84b9ac);
+}
+.sv-loader__pct {
+  color: var(--sv-cream-2, #f2eee4);
+  font-weight: 700;
+}
+
+.sv-loader__track {
+  width: 100%;
+  height: 14px;
+  padding: 2px;
+  border-radius: 999px;
+  background: rgba(125, 205, 255, 0.1);
+  border: 1.5px solid rgba(143, 211, 255, 0.45);
+  overflow: hidden;
+}
+.sv-loader__fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #4ea8ff,
+    #8fd3ff 55%,
+    var(--sv-orange, #eb8928)
+  );
+  transition: width 0.12s linear;
+}
+
+.sv-loader__box {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(125, 205, 255, 0.06);
+  border: 1px solid rgba(125, 205, 255, 0.2);
+  text-align: left;
+  cursor: pointer;
+}
+.sv-loader__tag {
+  display: block;
+  margin-bottom: 4px;
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sv-orange, #eb8928);
+}
+.sv-loader__text {
+  margin: 0;
+  min-height: 54px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--sv-cream, #f2eee4);
+}
+
+.sv-loader__enter {
+  align-self: center !important;
+  margin-top: 4px;
+}
+.sv-loader__enter[hidden] {
+  display: none !important;
+}

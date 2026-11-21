@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foguetes · Astronomia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   BASE DA PÁGINA (igual ao Expedições)
+   ========================================================= */
+:root {
+  --lilac: #d3b8ff;
+  --lilac-line: rgba(190, 160, 245, .22);
+  --cream: #f3dfa6;
+  --orange: #e0892f;
+  --red: #e8281f;
+  --panel: #0b0b12;
+  --display: "Playfair Display", Georgia, serif;
+  --body: "Inter", system-ui, sans-serif;
+}
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+  background-color: #05030a;
+  background-image:
+    radial-gradient(ellipse 45% 9% at 85% 14%, rgba(130, 80, 210, .15), transparent 100%),
+    radial-gradient(ellipse 45% 9% at 10% 40%, rgba(224, 137, 47, .07), transparent 100%),
+    radial-gradient(ellipse 45% 9% at 88% 66%, rgba(120, 70, 190, .13), transparent 100%),
+    radial-gradient(ellipse 45% 8% at 12% 88%, rgba(224, 137, 47, .06), transparent 100%),
+    linear-gradient(180deg, #05040a 0, #0a0613 50%, #04030a 100%);
+}
+body {
+  margin: 0;
+  min-height: 100%;
+  background: transparent;
+  color: #d6dcff;
+  font-family: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ---------- Navbar ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(3, 3, 10, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(168, 180, 255, 0.2);
+  padding: 0 1rem;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+header .nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: .25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  overflow-x: auto;
+}
+header .nav-item { margin: 0; }
+header .nav-link {
+  display: block;
+  padding: .95rem 1rem;
+  color: #b8c0e8;
+  text-decoration: none;
+  font-size: .95rem;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s, background .2s;
+}
+header .nav-link:hover {
+  color: #fff;
+  background: rgba(100, 90, 180, 0.2);
+  border-bottom-color: #a8b4ff;
+}
+header .nav-link.active {
+  color: #fff;
+  border-bottom-color: #c4b5fd;
+}
+header .nav-link:focus-visible {
+  outline: 2px solid #a8b4ff;
+  outline-offset: -2px;
+}
+section { scroll-margin-top: 60px; }
+
+/* ---------- Banner (hero) ---------- */
+#galaxia {
+  position: relative;
+  width: 100%;
+  height: 86vh;
+  min-height: 620px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 90%, rgba(70, 60, 150, .35) 0%, rgba(3,3,10,0) 60%),
+    radial-gradient(ellipse at center, #0d0d30 0%, #03030a 78%);
+}
+#galaxia canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* bordas laranja do banner (só nas horizontais) */
+#galaxia::before,
+#galaxia::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(224, 137, 47, .6);
+  z-index: 3;
+  pointer-events: none;
+}
+#galaxia::before { top: 0; }
+#galaxia::after { bottom: 0; }
+#galaxia .hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: min(58%, 820px);
+  padding: 0 0 0 6vw;
+  pointer-events: none;
+  font-family: "Work Sans", system-ui, sans-serif;
+}
+#galaxia p { line-height: 1.6; }
+#galaxia .kicker {
+  margin: 0 0 1.2rem;
+  font-size: clamp(13px, 1.3vw, 17px);
+  letter-spacing: .08em;
+  color: #e8ebff;
+  opacity: .9;
+}
+#galaxia h1 {
+  margin: 0 0 1.2rem;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(44px, 7.4vw, 112px);
+  line-height: 1.02;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 30px rgba(0,0,0,.7), 0 0 60px rgba(124,108,255,.35);
+}
+#galaxia .descricao {
+  margin: 0;
+  max-width: 520px;
+  font-size: clamp(13px, 1.15vw, 16px);
+  line-height: 1.6;
+  color: #dfe3ff;
+  opacity: .9;
+}
+/* contador de lançamento */
+#galaxia #cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  z-index: 2;
+  text-align: center;
+  padding: 0 12px;
+  pointer-events: none;
+}
+#tempo {
+  font-size: clamp(14px, 2.4vw, 22px);
+  letter-spacing: .12em;
+  color: #fff;
+  text-shadow: 0 0 14px #8f9cff;
+}
+#fase {
+  font-size: clamp(11px, 1.6vw, 15px);
+  color: #9aa4e6;
+  margin-top: 4px;
+}
+#barra {
+  height: 2px;
+  margin: 10px auto 0;
+  width: min(420px, 80%);
+  background: rgba(255,255,255,.12);
+}
+#prog {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #8f9cff, #fff);
+}
+@media (max-width: 819px) {
+  #galaxia { min-height: 680px; }
+  #galaxia .hero {
+    max-width: 100%;
+    padding: 0 6vw;
+    justify-content: flex-start;
+    padding-top: 11vh;
+  }
+  #galaxia h1 { font-size: clamp(40px, 12.5vw, 76px); }
+}
+
+/* =========================================================
+   CONTEÚDO DO ARTIGO (igual ao Expedições)
+   ========================================================= */
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 3.2rem 1.25rem 2rem;
+  font-family: var(--body);
+}
+/* cada seção vira um painel com a moldura retrô dos cards */
+section {
+  position: relative;
+  margin-bottom: 0;
+  padding: clamp(1.5rem, 3.4vw, 2.6rem);
+  background: linear-gradient(180deg, #11122200, #0a0b14), #0c0f19;
+  border: 1.5px solid rgba(243, 223, 166, .5);
+  border-radius: 14px;
+}
+section::before,
+section::after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+section::before {
+  top: -3px;
+  left: 30px;
+  width: 30px;
+  background: var(--orange);
+}
+section::after {
+  bottom: -3px;
+  right: 36px;
+  width: 24px;
+  background: var(--red);
+}
+h2 {
+  margin: 0 0 1.5rem;
+  padding-bottom: .95rem;
+  color: var(--cream);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.6vw, 38px);
+  line-height: 1.12;
+  letter-spacing: 0;
+  border: 0;
+  background:
+    linear-gradient(var(--orange), var(--orange)) 0 100% / 44px 3px no-repeat,
+    linear-gradient(90deg, rgba(211, 184, 255, .32), transparent) 0 100% / 100% 1px no-repeat;
+}
+h3 {
+  margin: 2rem 0 .7rem;
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(21px, 2.4vw, 26px);
+  line-height: 1.2;
+}
+h4 {
+  margin: .8rem 0;
+  color: #cfc9d9;
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.8;
+}
+h4 strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+main p {
+  margin: .9rem 0;
+  color: #d6d0ca;
+  font-family: var(--body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.85;
+  opacity: 1;
+}
+main p strong {
+  color: #fff;
+  font-weight: 600;
+}
+em {
+  color: #bfb7d2;
+  opacity: 1;
+}
+
+/* listas com marcador em losango */
+main ul {
+  margin: 1rem 0 1.4rem;
+  padding: 0;
+  list-style: none;
+  color: #cfc9d9;
+  font-size: 15px;
+  line-height: 1.75;
+}
+main li {
+  position: relative;
+  margin-bottom: .65rem;
+  padding-left: 1.5rem;
+}
+main li::before {
+  content: "";
+  position: absolute;
+  left: .1rem;
+  top: .62em;
+  width: 7px;
+  height: 7px;
+  background: var(--orange);
+  transform: rotate(45deg);
+}
+main li strong {
+  color: var(--lilac);
+  font-weight: 600;
+}
+
+/* imagens e legendas */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.4rem auto;
+  border-radius: 12px;
+  border: 1.5px solid rgba(243, 223, 166, .45);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, .5);
+}
+figure { margin: 1.8rem 0; }
+figcaption {
+  text-align: center;
+  color: #8f89a6;
+  font-family: var(--body);
+  font-size: .86rem;
+  line-height: 1.5;
+  margin-top: -.6rem;
+}
+
+/* caixa de destaque */
+.destaque {
+  border-left: 3px solid var(--orange);
+  padding: .5rem 1.2rem;
+  margin: 1.6rem 0;
+  background: rgba(224, 137, 47, .06);
+  border-radius: 0 10px 10px 0;
+}
+.destaque p { margin: .35rem 0; }
+.destaque strong { color: var(--cream); }
+
+/* separador entre painéis */
+hr {
+  border: 0;
+  height: 1px;
+  margin: 2.4rem 0;
+  background: linear-gradient(90deg, transparent, rgba(211, 184, 255, .38), transparent);
+}
+
+footer {
+  padding: 1.6rem 1rem 2.4rem;
+  text-align: center;
+  color: #7b7f96;
+  font-family: var(--body);
+  font-size: .85rem;
+  opacity: 1;
+}
+footer p {
+  margin: 0;
+  color: inherit;
+  font-weight: 400;
+  font-size: inherit;
+}
+
+@media (max-width: 640px) {
+  main { padding: 2rem .9rem 1.2rem; }
+  section { padding: 1.4rem 1.1rem; }
+}
+</style>
+</head>
+<body>
+<header>
+<ul class="nav">
+  <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+  <li class="nav-item"><a class="nav-link" href="biblioteca.html">Biblioteca</a></li>
+  <li class="nav-item"><a class="nav-link" href="intera-o-sistema-solar-main/sistema-solar.html">Sistema Solar</a></li>
+  <li class="nav-item"><a class="nav-link" href="bigbang.html">Big Bang</a></li>
+  <li class="nav-item"><a class="nav-link" href="expedições.html">Expedições</a></li>
+  <li class="nav-item"><a class="nav-link" href="astrofisica.html">Astrofísica</a></li>
+  <li class="nav-item"><a class="nav-link" href="foguetes.html">Foguetes</a></li>
+  <li class="nav-item"><a class="nav-link" href="introjogo.html">Jogar</a></li>
+</ul>
+</header>
+
+<!-- Banner -->
+<div id="galaxia">
+<canvas aria-hidden="true"></canvas>
+<div class="hero">
+  <p class="kicker">Semana do DS · Astronomia</p>
+  <h1>Foguetes</h1>
+  <p class="descricao">A tecnologia que nos leva além da atmosfera terrestre.</p>
+</div>
+<div id="cap">
+  <div id="tempo"></div>
+  <div id="fase"></div>
+  <div id="barra"><div id="prog"></div></div>
+</div>
+</div>
+
+<main>
+<!-- Definição -->
+<section id="definicao">
+  <h2>Foguetes — máquinas que vencem a gravidade</h2>
+  <p>
+    Um foguete é uma máquina que se desloca expelindo atrás de si um fluxo
+    de gases em alta velocidade. Ele pode transportar pessoas, equipamentos,
+    satélites, sondas espaciais e diversos outros materiais. Em determinadas
+    experiências científicas, até animais já foram enviados ao espaço.
+  </p>
+  <figure>
+    <img src="foguete.png" alt="Foguete durante o lançamento">
+    <figcaption>O lançamento de um foguete depende da produção de empuxo.</figcaption>
+  </figure>
+</section>
+
+<hr>
+
+<!-- Funcionamento -->
+<section id="funcionamento">
+  <h2>Como funciona um foguete?</h2>
+  <p>
+    O funcionamento de um foguete está relacionado à terceira lei de Newton,
+    também conhecida como lei da ação e reação. Ela estabelece que, quando um
+    corpo exerce uma força sobre outro, recebe uma força de mesma intensidade
+    e direção, mas em sentido oposto.
+  </p>
+  <p>
+    Para subir, o foguete expele gases em alta velocidade para baixo. Como
+    reação, recebe uma força que o impulsiona para cima. Esse princípio
+    permite que ele continue acelerando mesmo fora da atmosfera, pois não
+    depende do ar para se movimentar.
+  </p>
+  <h3>O que é empuxo?</h3>
+  <p>
+    Empuxo é a força produzida pelo motor que impulsiona o foguete. Durante
+    a combustão, os gases quentes são conduzidos até um bocal na parte
+    inferior do motor. Ao serem expelidos em alta velocidade, geram uma
+    força de reação que impulsiona o veículo na direção oposta.
+  </p>
+  <div class="destaque">
+    <p><strong>Em resumo:</strong> gases são lançados para baixo e o foguete
+    é impulsionado para cima. É a ação e reação trabalhando juntas.</p>
+  </div>
+  <figure>
+    <img src="funcionamento-foguete.png" alt="Ilustração do funcionamento de um motor de foguete">
+    <figcaption>Representação simplificada da expulsão de gases e da produção de empuxo.</figcaption>
+  </figure>
+</section>
+
+<hr>
+
+<!-- Combustível -->
+<section id="combustivel">
+  <h2>Combustíveis e propelentes</h2>
+  <p>
+    O material utilizado para impulsionar um foguete é chamado de
+    <em>propelente</em>. Ele pode ser sólido ou líquido e sua composição
+    varia de acordo com o motor e os objetivos da missão espacial.
+  </p>
+  <p>
+    A escolha do propelente é muito importante: fatores como eficiência,
+    armazenamento, segurança, custo e capacidade de controle influenciam
+    diretamente o projeto do foguete.
+  </p>
+  <h3>Propelentes líquidos</h3>
+  <p>
+    Alguns foguetes utilizam propelentes líquidos. Um exemplo é o RP-1,
+    um tipo refinado de querosene utilizado como combustível em determinados
+    motores, geralmente combinado com um oxidante.
+  </p>
+  <p>
+    Esses sistemas permitem controlar o fluxo de propelente e, em certos
+    motores, interromper ou reiniciar a combustão. Por outro lado, exigem
+    equipamentos complexos, como válvulas, vedações e turbobombas. Alguns
+    oxidantes também são altamente tóxicos ou reativos, exigindo cuidados
+    especiais.
+  </p>
+  <h3>Propelentes sólidos</h3>
+  <p>
+    Os propelentes sólidos podem apresentar diferentes composições,
+    incluindo formulações homogêneas e compostas. Em geral, são densos,
+    estáveis e relativamente simples de armazenar.
+  </p>
+  <p>
+    Seus motores possuem uma construção mais simples e podem oferecer
+    grande capacidade de impulso. Entretanto, depois de acionados, não
+    costumam permitir que a combustão seja interrompida ou regulada da
+    mesma maneira que em muitos motores líquidos.
+  </p>
+  <figure>
+    <img src="combustiveis-foguetes.png" alt="Motores de foguetes com diferentes tipos de propelentes">
+    <figcaption>Diferentes tecnologias de propulsão são utilizadas em veículos espaciais.</figcaption>
+  </figure>
+</section>
+
+<hr>
+
+<!-- Animais -->
+<section id="animais">
+  <h2>Animais enviados ao espaço</h2>
+  <p>
+    Antes de os seres humanos realizarem viagens espaciais, diversos animais
+    foram enviados em missões experimentais. Programas espaciais da União
+    Soviética, dos Estados Unidos e de outros países utilizaram organismos
+    vivos para investigar os efeitos das condições espaciais sobre o corpo.
+  </p>
+  <p>
+    Entre os animais que participaram dessas experiências estavam primatas,
+    camundongos, insetos, microrganismos e tartarugas. Dois casos ficaram
+    especialmente conhecidos: o da cadela Laika e o da gata Félicette.
+  </p>
+
+
+  <!-- Laika -->
+  <h3>Laika — a primeira cadela a orbitar a Terra</h3>
+  <p>
+    Em 3 de novembro de 1957, a União Soviética lançou a missão Sputnik 2,
+    levando a cadela Laika ao espaço. Ela se tornou o primeiro animal a
+    orbitar a Terra.
+  </p>
+  <p>
+    Laika foi lançada a partir do cosmódromo de Baikonur. Segundo relatos
+    atribuídos ao pesquisador Viktor Yazdovsky, ela era dócil, afetuosa
+    e inteligente.
+  </p>
+  <p>
+    Na época, ainda não existia tecnologia capaz de trazer organismos vivos
+    de volta à Terra com segurança a partir daquela missão. Por isso,
+    Laika não tinha possibilidade de retornar. Ela morreu durante o voo,
+    e sua história se tornou um dos episódios mais conhecidos e controversos
+    da exploração espacial.
+  </p>
+  <figure>
+    <img src="laika.png" alt="Laika, a cadela enviada ao espaço pela União Soviética">
+    <figcaption>Laika, a bordo da missão soviética Sputnik 2, em 1957.</figcaption>
+  </figure>
+
+  <!-- Félicette -->
+  <h3>Félicette — a gata que voltou à Terra</h3>
+  <p>
+    Em 18 de outubro de 1963, a França lançou o foguete Véronique AGI 47,
+    levando ao espaço uma gata de rua identificada inicialmente pelo código
+    C 341. Posteriormente, ela ficou conhecida como Félicette.
+  </p>
+  <p>
+    Ela foi escolhida entre 14 outras gatas avaliadas pelo CERMA
+    (<em>Centre d'Enseignement et de Recherches de Médecine Aéronautique</em>),
+    em razão de seu temperamento calmo e dócil.
+  </p>
+  <p>
+    O voo alcançou aproximadamente 154 quilômetros de altitude e durou
+    cerca de 13 minutos. Diferentemente de Laika, Félicette retornou
+    à Terra em segurança.
+  </p>
+  <p>
+    Cerca de dois meses depois da missão, ela foi sacrificada para que
+    pesquisadores pudessem estudar seu organismo e examinar seu cérebro.
+    Os resultados da análise, entretanto, não trouxeram conclusões úteis
+    para os pesquisadores.
+  </p>
+  <figure>
+    <img src="felicette.png" alt="Félicette, a gata enviada ao espaço pela França">
+    <figcaption>Félicette, participante do programa espacial francês em 1963.</figcaption>
+  </figure>
+</section>
+</main>
+
+<hr>
+<footer>
+<p>Semana do DS: Quasar · Foguetes</p>
+</footer>
+
+<script>
+/* ============================================================
+   Banner: foguete em ASCII, com lançamento animado
+   ============================================================ */
+(() => {
+const box = document.getElementById('galaxia');
+const cv = box.querySelector('canvas');
+const ctx = cv.getContext('2d');
+const tempoEl = box.querySelector('#tempo');
+const faseEl = box.querySelector('#fase');
+const prog = box.querySelector('#prog');
+const TAU = Math.PI * 2;
+const T = 16;
+const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Foguete em ASCII colorido, convertido do desenho de referência.
+   Cada caractere tem uma cor da paleta (pal); rock = foguete, cloud = nuvem. */
+const SPR = {
+  "cols": 56,
+  "pal": [
+    "rgb(25,41,57)",
+    "rgb(85,102,121)",
+    "rgb(148,80,77)",
+    "rgb(71,109,142)",
+    "rgb(177,67,69)",
+    "rgb(142,134,50)",
+    "rgb(116,137,162)",
+    "rgb(187,116,109)",
+    "rgb(234,101,71)",
+    "rgb(213,113,97)",
+    "rgb(155,172,189)",
+    "rgb(159,180,201)",
+    "rgb(236,181,172)",
+    "rgb(211,217,224)",
+    "rgb(223,226,229)",
+    "rgb(250,220,212)",
+    "rgb(248,251,255)",
+    "rgb(255,255,255)"
+  ],
+  "rock": [
+    "                           *+                           ",
+    "                          **+                           ",
+    "                                                        ",
+    "                         @@@%%%                         ",
+    "                       @@@%%%%%%%                       ",
+    "                      %@@@%%%%%%%%                      ",
+    "                     %%%@@%%%%%%%%%                     ",
+    "                   %%%@@@%%%%%%%%%%%%                   ",
+    "                   ###%%%#########+++                   ",
+    "                  ++++++++++++++++                      ",
+    "                  %%%%@@@@%%%%%%%%####                  ",
+    "                %%%@@%@@@@@@%%%%%%#%%#%%                ",
+    "                %%@@@@@@@======%%%%%%%##                ",
+    "               %%%@@@@===@@@%%=====%%%###               ",
+    "               %@@@@@=*%=######=##=%%%###               ",
+    "               %@@@==%==#@######==*==%###               ",
+    "               %@@@==%==#%######==#==%###               ",
+    "               %@@@==#==#######+==#==%###               ",
+    "               %@@@==%==+####+++==*==%###               ",
+    "               %@@@%%=*==++++++=**=#%%###               ",
+    "               %@@@@@==============%%%###               ",
+    "               %@@@@@@%%=========%%%%%###               ",
+    "               %@@@@@@@@@%%%%%%%%%%%%%###               ",
+    "               %@@@@@@@@@@%%***%%%%%%%###               ",
+    "               %@@@@@@@@@@@****%%%%%%%###               ",
+    "               %@@@@@@@@@******%%%%%%%###               ",
+    "       +++     %@@@@@@@@*****%%%%%%%%%###    +++        ",
+    "      ++#+     %%@@@@@%%%**%%%%%%%%%%%*##   +##+        ",
+    "     +#+++++   %%%@%%%%%%%%==%%%%%%%%%###  +#++++       ",
+    "      +++++    ########## ##**%#######***   +++++       ",
+    "     *%###**+  %%%%@@%%%% +++  %%%%%%%###  +%##*+++     ",
+    "      +++      %%%@@@%%%% **+  %%%%%%%###   +++         ",
+    "    **#**+++   %%%@@@%%%% ##+  %%%%%%%### ++#**+        ",
+    "    **#**+++   %%%@@%%%%% ##+  %%%%%%%### ++#**+        ",
+    "    **#**+++    **#%%%%## ##+  *######**   +#**+        ",
+    "    **#**+++   *  %%%%%%% ##+  ##%%%%%  *   #**+        ",
+    "    **#**++     #%%%%%%%% ##+  #%%%%%%*     #**+        ",
+    "      ++     **           +++            *  +++         ",
+    "    **%***++*   ***###*** +++  +++*##*+   **%**++++     ",
+    "    **%***+++             +++             ++#**++++     ",
+    "     ++            ++***+ +++  +++         ++++         ",
+    "      **#           +*#** +++  +**++        **#         ",
+    "      ***+++              =++               ***+++      ",
+    "                          ==++                          "
+  ],
+  "rockc": [
+    "00000000000000000000000000084000000000000000000000000000",
+    "00000000000000000000000000884000000000000000000000000000",
+    "00000000000000000000000000000000000000000000000000000000",
+    "0000000000000000000000000hhhedd0000000000000000000000000",
+    "00000000000000000000000hhheeeeedd00000000000000000000000",
+    "0000000000000000000000dhhheeeeeedd0000000000000000000000",
+    "000000000000000000000deehheeeeeeddd000000000000000000000",
+    "0000000000000000000dddhhheeeeeeeedddd0000000000000000000",
+    "0000000000000000000bbbeeebbbbbbbbb3330000000000000000000",
+    "00000000000000000033333333333333330000000000000000000000",
+    "000000000000000000ddddhhhheeeeeeeebbbb000000000000000000",
+    "0000000000000000dddhhdhhhhhheeeeeebddbee0000000000000000",
+    "0000000000000000ddhhhhhhh000000eeeddddbb0000000000000000",
+    "000000000000000dddhhhh000hhhee00000dddbbb000000000000000",
+    "000000000000000dhhhhh06e0bbbbbb0bb0dddbbb000000000000000",
+    "000000000000000dhhh00e00bhbbbbbb00600dbbb000000000000000",
+    "000000000000000dhhh00e00bebbbbbb00b00dbbb000000000000000",
+    "000000000000000dhhh00b00bbbbbbb300b00dbbb000000000000000",
+    "000000000000000dhhh00e003bbbb33300600dbbb000000000000000",
+    "000000000000000dhhhee06003333330660bddbbb000000000000000",
+    "000000000000000dhhhhh00000000000000dddbbb000000000000000",
+    "000000000000000dhhhhhhee000000000eedddbbb000000000000000",
+    "000000000000000dhhhhhhhhheeeeeeeeeedddbbb000000000000000",
+    "000000000000000dhhhhhhhhhhee888eeeedddbbb000000000000000",
+    "000000000000000dhhhhhhhhhhh8888eeeedddbbb000000000000000",
+    "000000000000000dhhhhhhhhh888888eeeedddbbb000000000000000",
+    "000000033300000dhhhhhhhh88888eeeeeedddbbb000033300000000",
+    "00000033b300000dehhhhheee88eeeeeeeeddd6bb0003bb300000000",
+    "000003b33333000deeheeeeeeee00eeeeeedddbbb003b33330000000",
+    "000000333330000bbbbbbbbbb0bb66ebbbbbbb666000333330000000",
+    "000006ebbb66300deeehheeee033300eeeedddbbb003ebb633300000",
+    "000000333000000deehhheeee066300eeeedddbbb000333000000000",
+    "000066b66333000deehhheeee0bb300eeeedddbbb033b66300000000",
+    "000066b66333000dddhheeeee0bb300eeeedddbbb033b66300000000",
+    "000066b66333000066beeeebb0bb3006bbbbbb660003b66300000000",
+    "000066b66333000900deeeeee0bb300bbeeddd008000b66300000000",
+    "000066b663300000bddeeeeee0bb300beeeddd600000b66300000000",
+    "00000033000009900000000000333000000000000800333000000000",
+    "000066e666319000666bbb6660333003336bb6300077e66333300000",
+    "000066e6663330000000000000333000000000000033b66333300000",
+    "00000330000000000003366630333003330000000003333000000000",
+    "00000066b0000000000036b66033300366330000000066b000000000",
+    "00000066633300000000000000033000000000000000666333000000",
+    "00000000000000000000000000003100000000000000000000000000"
+  ],
+  "cloud": [
+    "                     @@@@@@@@@@@@@@                     ",
+    "            ######    @@@@@@@@@@@@      ####            ",
+    "          ##%@@@%%#@@ %@@@@@@@@@@%    #@@@@%##          ",
+    "         #%%@@@@@@%###%@@@@@@@@@%% ###@@@@@@%%#         ",
+    "         #@@@@@@@@@#%%@@@@@@@@@%%%%##@@@@@%%%##         ",
+    "      ####%%@@%%%%%%%%@@@@@@@@@@@%%%%##@@%%%%#####      ",
+    "   ##%@@@@@%#%%@@@@@@@@@@@@@@@@%@@%%@@@@@#%%%%%%%####   ",
+    "   #%%%@@%%%#%%%%%%@@@@%%%%%%%%%%%%@@%%%%###%%#######   ",
+    "   ###%%%%######%%%%%%%%%%%%%%%%%%%%%%%%#############   ",
+    "*#####********************************************#####*"
+  ],
+  "cloudc": [
+    "000000000000000000000gggggggggggggg000000000000000000000",
+    "000000000000bbbbbb0000gggggggggggg000000bbbb000000000000",
+    "0000000000bbehhheebgg0egggggggggge0000bhhhhebb0000000000",
+    "000000000beehhhhhhebbbegggggggggee0bbbhhhhhheeb000000000",
+    "000000000bhhhhhhhhhbeehhhggggggeeeebbhhhhheeebb000000000",
+    "000000bbbbeehheeeeeeeehhhgggggghheeeebbhheeeebbbbb000000",
+    "000bbehhhhhebeehhhhhhhhhhhhgghhehheehhhhhbeeeeeeebbbb000",
+    "000beeehheeebeeeeeehhhheeeeeeeeeeeehheeeebbbeebbbbbbb000",
+    "000bbbeeeebbbbbbeeeeeeeeeeeeeeeeeeeeeeeebbbbbbbbbbbbb000",
+    "abbbbb66666666666666666666666666666666666666666666bbbbba"
+  ]
+};
+const CENTRO = SPR.cols / 2;
+const idxPal = ch => parseInt(ch, 36);
+
+const estrelas = Array.from({ length: 150 }, () => ({
+  x: Math.random(),
+  y: Math.random(),
+  s: Math.random() * 1.8 + .4,
+  p: Math.random() * TAU,
+  v: Math.random() * 2 + .5
+}));
+const particulas = Array.from({ length: 65 }, () => ({
+  x: Math.random() * 2 - 1,
+  y: Math.random(),
+  s: Math.random() * 2 + .5,
+  p: Math.random() * TAU
+}));
+
+let W, H, dpr;
+
+const fases = [
+  [0,  'T - 00:00', 'Preparação para o lançamento'],
+  [3,  'T - 00:03', 'Ignição dos motores'],
+  [5,  'T - 00:05', 'Decolagem'],
+  [9,  'T - 00:09', 'Ascensão'],
+  [13, 'T - 00:13', 'Rumo ao espaço']
+];
+
+function quadro(t) {
+  ctx.clearRect(0, 0, W, H);
+
+  // Estrelas
+  for (const s of estrelas) {
+    const brilho = .3 + .7 * Math.abs(Math.sin(t * s.v + s.p));
+    ctx.fillStyle = `rgba(220,225,255,${brilho * .75})`;
+    ctx.fillRect(s.x * W, s.y * H, s.s, s.s);
+  }
+
+  const mobile = W < 820;
+  const LIN = SPR.rock.length;
+  const fs = Math.max(6, Math.min(14,
+    H * (mobile ? .52 : .62) / LIN,
+    W * (mobile ? .60 : .40) / (SPR.cols * .6)));
+  const cw = fs * .6, lh = fs;
+  const cx = mobile ? W * .66 : W * .73;
+  const solo = H * (mobile ? .80 : .75);            // chão (base do foguete parado)
+  const topo0 = solo - LIN * lh;
+  const l0 = Math.max(0, Math.min(1, (t - 3) / 10));
+  const lancamento = Math.pow(l0, 1.7);             // acelera aos poucos
+  const tremor = (t > 3 && t < 6) ? Math.sin(t * 60) * fs * .12 : 0;
+  const y = topo0 - lancamento * H * .62;           // topo do foguete agora
+  const baseF = y + (LIN - 1) * lh;                 // onde nasce a chama
+
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = `bold ${fs}px "Courier New", monospace`;
+
+  // Foguete (sprite ASCII)
+  ctx.save();
+  ctx.globalAlpha = Math.min(1, t / 1.5);
+  let ultima = '';
+  for (let r = 0; r < LIN; r++) {
+    const lin = SPR.rock[r], cor = SPR.rockc[r];
+    for (let c = 0; c < lin.length; c++) {
+      const ch = lin[c];
+      if (ch === ' ') continue;
+      const f = SPR.pal[idxPal(cor[c])];
+      if (f !== ultima) { ctx.fillStyle = f; ultima = f; }
+      ctx.fillText(ch, cx + tremor + (c + .5 - CENTRO) * cw, y + (r + .5) * lh);
+    }
+  }
+  ctx.restore();
+
+  if (t > 3) {
+    // Chama em formato de coração (vermelho, laranja, amarelo, núcleo claro)
+    const comp = 12 + 9 * lancamento;
+    const larg = 8.5;
+    const inten = .8 + .2 * Math.sin(t * 17);
+    for (let k = 0; k < comp; k++) {
+      const u = k / (comp - 1);
+      let hw = u < .2 ? larg * (.7 + 1.5 * u) : larg * Math.pow((1 - u) / .8, .85);
+      hw *= 1 + .08 * Math.sin(t * 14 + k);
+      if (hw < .4) continue;
+      const m = Math.ceil(hw);
+      for (let x = -m; x <= m; x++) {
+        if (k < 2 && Math.abs(x) < 1) continue;
+        const d = Math.abs(x) / hw + .08 * Math.sin(t * 19 + k * 1.3 + x * .9) + Math.max(0, u - .65) * .9;
+        if (d > 1) continue;
+        let ch, rgb;
+        if (d < .26 && u < .5)       { ch = '█'; rgb = '255,246,205'; }
+        else if (d < .5)             { ch = '█'; rgb = '255,208,64'; }
+        else if (d < .76)            { ch = '▓'; rgb = '244,128,34'; }
+        else                         { ch = '▒'; rgb = '214,56,34'; }
+        ctx.fillStyle = `rgba(${rgb},${inten * (1 - u * .35)})`;
+        ctx.fillText(ch, cx + tremor + x * cw, baseF + (k + .5) * lh);
+      }
+    }
+    // Faíscas caindo
+    ctx.fillStyle = 'rgba(255,214,120,.8)';
+    for (const p of particulas) {
+      const py = baseF + comp * lh * .6 + ((p.y * 10 + t * 5) % 9) * lh;
+      const px = cx + p.x * (4 + t * .6) * cw;
+      ctx.globalAlpha = .15 + Math.abs(Math.sin(t + p.p)) * .6;
+      ctx.fillText('·', px, py);
+    }
+    ctx.globalAlpha = 1;
+
+    // Nuvem de fumaça na plataforma (sprite), se espalha e some
+    const idade = t - 3;
+    const esp = Math.min(1.55, .8 + idade * .07);
+    const aN = Math.min(1, idade * 1.5) * Math.max(0, 1.15 - idade / 10) * (mobile ? .75 : 1);
+    if (aN > 0) {
+      ctx.save();
+      ctx.globalAlpha = aN;
+      const topoN = solo - lh;
+      let ult = '';
+      for (let r = 0; r < SPR.cloud.length; r++) {
+        const lin = SPR.cloud[r], cor = SPR.cloudc[r];
+        for (let c = 0; c < lin.length; c++) {
+          const ch = lin[c];
+          if (ch === ' ') continue;
+          const f = SPR.pal[idxPal(cor[c])];
+          if (f !== ult) { ctx.fillStyle = f; ult = f; }
+          ctx.fillText(ch, cx + (c + .5 - CENTRO) * cw * esp, topoN + (r + .5) * lh + Math.sin(t * 2 + c * .4) * .6);
+        }
+      }
+      ctx.restore();
+    }
+  }
+
+  // Texto de fase
+  let fase = fases[0];
+  for (const item of fases) {
+    if (t >= item[0]) fase = item;
+  }
+  tempoEl.textContent = fase[1];
+  faseEl.textContent = fase[2];
+  prog.style.width = (t / T * 100) + '%';
+}
+
+function ajustar() {
+  dpr = Math.min(2, window.devicePixelRatio || 1);
+  W = box.clientWidth;
+  H = box.clientHeight;
+  cv.width = W * dpr;
+  cv.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (calmo) quadro(10);
+}
+ajustar();
+new ResizeObserver(ajustar).observe(box);
+
+if (!calmo) {
+  let visivel = true;
+  new IntersectionObserver(([e]) => {
+    visivel = e.isIntersecting;
+  }).observe(box);
+  const inicio = performance.now();
+  let ultimo = 0;
+  function loop(agora) {
+    requestAnimationFrame(loop);
+    if (!visivel || agora - ultimo < 33) return;
+    ultimo = agora;
+    quadro(((agora - inicio) / 1000) % T);
+  }
+  requestAnimationFrame(loop);
+}
+})();
+
+/* ============================================================
+   Navbar: destaca a página atual
+   ============================================================ */
+(() => {
+const links = document.querySelectorAll('header .nav-link');
+links.forEach(link => {
+  if (link.getAttribute('href') === 'foguetes.html') {
+    link.classList.add('active');
+  }
+});
+})();
+</script>
+</body>
+</html>

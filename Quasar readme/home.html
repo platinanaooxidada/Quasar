@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quasar · Astronomia</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --space: #07070d;
+  --cream: #f3dfa6;
+  --orange: #e0892f;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', sans-serif;
+  --max-width: 1216px;
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  color: #f3f0eb;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* =====================================
+   BANNER
+===================================== */
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(440px, 60vh, 580px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  padding: 2.2rem clamp(1.2rem, 5vw, 5rem) 1.8rem;
+}
+
+#estrelas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Imagem de fundo do banner (coloque bannerhome.png na mesma pasta) */
+
+.banner-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url('bannerhome.png') center / cover no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Feixe de luz */
+
+.feixe {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 58%, transparent 96%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 58%, transparent 96%);
+}
+
+.feixe i {
+  position: absolute;
+  left: 54%;
+  top: -25%;
+  height: 150%;
+  transform: rotate(33deg);
+  transform-origin: 50% 50%;
+}
+
+.feixe .brilho {
+  width: 46px;
+  filter: blur(14px);
+  opacity: .45;
+  background: linear-gradient(
+    180deg,
+    transparent 5%,
+    rgba(150,185,255,.8) 40%,
+    rgba(235,245,255,.95) 52%,
+    rgba(150,185,255,.55) 65%,
+    transparent 95%
+  );
+}
+
+.feixe .nucleo {
+  width: 4px;
+  margin-left: 21px;
+  filter: blur(.6px);
+  opacity: .9;
+  background: linear-gradient(
+    180deg,
+    transparent 8%,
+    rgba(200,220,255,.7) 40%,
+    #fff 52%,
+    rgba(200,220,255,.6) 66%,
+    transparent 92%
+  );
+}
+
+/* Semana do DS */
+
+.semana {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(20px, 2.3vw, 30px);
+  color: #fff;
+  letter-spacing: .01em;
+  justify-self: center;
+  padding: .2rem 1rem;
+}
+
+/* Logo */
+
+.palco {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  display: grid;
+  place-items: center;
+  align-self: center;
+}
+
+.marca {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.marca svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 6px 30px rgba(0,0,0,.65));
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.pulso {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulso 3.2s ease-in-out infinite;
+}
+
+@keyframes pulso {
+  0%, 100% {
+    opacity: .65;
+    transform: scale(.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* =====================================
+   ÁREA DOS CARDS
+===================================== */
+
+.explorar {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-width);
+  margin: 3.5rem auto 0;
+  padding: 0 2rem;
+}
+
+.secao-titulo {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 43px);
+  font-weight: 400;
+  color: #f3dfa6;
+  margin-bottom: 1.8rem;
+}
+
+.secao-intro {
+  color: #dccfc4;
+  font-size: 15px;
+  line-height: 1.7;
+  margin-top: -1.1rem;
+  margin-bottom: 2.3rem;
+}
+
+/* Cards em destaque */
+
+.destaques {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+
+/* Cards: mesma moldura da biblioteca (borda creme fina + marcas laranja e vermelha) */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: linear-gradient(180deg, #11122200, #0a0b14), #0c0f19;
+  border: 1.5px solid rgba(243,223,166,.5);
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-6px);
+  border-color: rgba(243,223,166,.9);
+  box-shadow:
+    0 0 0 1px rgba(224,137,47,.4),
+    0 0 32px rgba(211,184,255,.12),
+    0 16px 44px rgba(0,0,0,.5);
+  outline: none;
+}
+
+.card-img {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  background: radial-gradient(circle at center, #24233d, #090a13 70%);
+}
+
+.card-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .85;
+  transform: scale(1.02);
+  transition: transform .65s ease, opacity .4s ease;
+}
+
+.card:hover .card-img img {
+  opacity: 1;
+  transform: scale(1.07);
+}
+
+.card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(8,7,10,.75) 100%);
+  pointer-events: none;
+}
+
+/* Cards grandes */
+
+.card-destaque {
+  min-height: 390px;
+}
+
+.card-destaque .card-img {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+}
+
+.card-destaque .card-img img {
+  position: absolute;
+  inset: 0;
+}
+
+.card-destaque .card-img::after {
+  background: linear-gradient(
+    90deg,
+    rgba(8,7,10,.88) 0%,
+    rgba(8,7,10,.55) 55%,
+    rgba(8,7,10,.12) 100%
+  );
+}
+
+.card-destaque .card-corpo {
+  position: relative;
+  z-index: 1;
+  min-height: 390px;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: clamp(1.7rem, 4vw, 3rem);
+}
+
+.card-titulo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: .6rem;
+}
+
+.card-destaque .card-titulo {
+  font-size: clamp(34px, 4vw, 47px);
+  line-height: 1.1;
+  margin-bottom: .8rem;
+}
+
+.card-desc {
+  color: #fefdfc;
+  font-size: 12.5px;
+  line-height: 1.7;
+  font-weight: 300;
+  margin: 0;
+}
+
+.card-destaque .card-desc {
+  max-width: 390px;
+  font-size: 15px;
+}
+
+/* Botão: o mesmo link lilás da biblioteca */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  align-self: flex-start;
+  margin-top: 1.3rem;
+  padding: .52rem 1.1rem .56rem;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.1;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(190,160,245,.14);
+  transition: transform .25s ease, background .25s ease, color .25s ease;
+}
+
+.card-destaque .btn {
+  font-size: 14px;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
+
+.card:hover .btn,
+.card:focus-visible .btn {
+  color: #fff;
+  background: rgba(190,160,245,.28);
+  transform: translateY(-2px);
+}
+
+/* =====================================
+   ARTIGOS — CARDS MENORES
+===================================== */
+
+.artigos {
+  margin-bottom: 6rem;
+}
+
+.artigos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.card-artigo .card-img {
+  aspect-ratio: 16 / 10;
+}
+
+.card-artigo .card-corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px 22px 22px;
+}
+
+.card-artigo .card-desc {
+  flex: 1;
+}
+
+/* =====================================
+   APARÊNCIA DOS CARDS (referências do kit retrô)
+===================================== */
+
+/* Biblioteca e Jogos: aba azul-ardósia com barras vermelha e creme nas laterais */
+
+.destaques {
+  gap: 2.2rem;
+}
+
+.card-destaque {
+  background: linear-gradient(135deg, #3a4a68, #2c3a55);
+  border: 1.5px solid rgba(150,170,205,.35);
+}
+
+.card-destaque .card-img {
+  background: linear-gradient(135deg, #3a4a68, #2c3a55);
+}
+
+.card-destaque .card-img img {
+  opacity: .95;
+  transform: scale(1);
+}
+
+.card-destaque:hover .card-img img {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.card-destaque .card-img::after {
+  background: linear-gradient(
+    90deg,
+    rgba(38,50,76,.74) 0%,
+    rgba(44,58,85,.3) 55%,
+    rgba(58,74,104,.04) 100%
+  );
+}
+
+.card-destaque:hover,
+.card-destaque:focus-visible {
+  border-color: rgba(190,205,235,.65);
+  box-shadow: 0 16px 44px rgba(0,0,0,.5);
+}
+
+/* barra vermelha à esquerda + traço creme curtinho */
+.card-destaque::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 14px;
+  bottom: 14px;
+  left: -16px;
+  width: 7px;
+  border-radius: 4px;
+  background: #e8281f;
+  pointer-events: none;
+}
+
+.card-destaque .card-corpo::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: -6px;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: #f3dfa6;
+  pointer-events: none;
+}
+
+/* barra creme à direita */
+.card-destaque::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 14px;
+  bottom: 14px;
+  right: -14px;
+  width: 6px;
+  border-radius: 3px;
+  background: #f3dfa6;
+  pointer-events: none;
+}
+
+/* Artigos: moldura de linhas finas em camadas + brilho diagonal no canto */
+
+.card-artigo {
+  background: #0a0d17;
+  border: 2px solid rgba(165,195,245,.9);
+  box-shadow: 0 0 22px rgba(110,150,230,.18);
+}
+
+.card-artigo:hover,
+.card-artigo:focus-visible {
+  border-color: #fff;
+  box-shadow: 0 0 30px rgba(130,170,245,.35), 0 16px 44px rgba(0,0,0,.5);
+}
+
+.card-artigo::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 12px;
+  right: 30px;
+  width: 16px;
+  height: 1.5px;
+  background: rgba(225,235,255,.95);
+  box-shadow: 0 5px 0 rgba(225,235,255,.6);
+  transform: rotate(-55deg);
+  pointer-events: none;
+}
+
+/* Links dos cards grandes: só o texto, sem container */
+
+.card-destaque:hover .btn,
+.card-destaque:focus-visible .btn {
+  background: none;
+  transform: translateX(4px);
+}
+
+/* "Ler artigo →": só o texto, sem container */
+
+.card-artigo .btn {
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  margin-top: 1.1rem;
+}
+
+.card-artigo:hover .btn,
+.card-artigo:focus-visible .btn {
+  background: none;
+  transform: translateX(4px);
+}
+
+/* =====================================
+   TRANSIÇÃO DOS CARDS
+===================================== */
+
+#transicao {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--space);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+
+body.saindo #transicao {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.saindo .explorar {
+  z-index: 60;
+}
+
+body.saindo .card {
+  pointer-events: none;
+}
+
+body.saindo .card:not(.escolhido) {
+  opacity: 0;
+  transform: scale(.92);
+}
+
+body.saindo .card.escolhido {
+  transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--zoom, 1.4));
+  transition-duration: .6s;
+  transition-timing-function: cubic-bezier(.3,.9,.2,1);
+  border-color: var(--orange);
+  box-shadow: 0 20px 60px rgba(0,0,0,.8);
+}
+
+/* =====================================
+   SOBRE O PROJETO
+===================================== */
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+
+.sobre-section {
+  margin-bottom: 4rem;
+}
+
+.sobre-section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.sobre-section p {
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #d6d0ca;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Créditos */
+
+.creditos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 2rem;
+  margin-top: 2.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.creditos-lista span {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: #d6d0ca;
+  font-weight: 400;
+  position: relative;
+}
+
+.creditos-lista span:not(:last-child)::after {
+  content: "•";
+  position: absolute;
+  right: -1.2rem;
+  color: var(--orange);
+}
+
+/* Fundo da página: do alaranjado ao roxo escuro */
+html {
+  min-height: 100%;
+  background-color: #05030a;
+  background-repeat: no-repeat;
+  background-size: 100% 900px, 100% 900px, 100% 900px, 100% 900px, 100% 900px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-image:
+    radial-gradient(ellipse 32% 190px at 52% 420px, rgba(240,150,55,.26), rgba(190,95,30,.09) 55%, transparent 100%),
+    radial-gradient(ellipse 40% 280px at 6% 400px, rgba(165,80,35,.13), transparent 100%),
+    radial-gradient(ellipse 35% 250px at 96% 510px, rgba(150,50,30,.1), transparent 100%),
+    radial-gradient(ellipse 35% 190px at 25% 50px, rgba(95,85,60,.07), transparent 100%),
+    radial-gradient(ellipse 30% 190px at 80% 130px, rgba(110,70,170,.12), transparent 100%),
+    radial-gradient(ellipse 45% 10% at 88% 40%, rgba(120,70,190,.13), transparent 100%),
+    radial-gradient(ellipse 45% 10% at 8% 66%, rgba(100,60,170,.11), transparent 100%),
+    radial-gradient(ellipse 40% 7% at 72% 86%, rgba(224,137,47,.07), transparent 100%),
+    linear-gradient(180deg, #040407 0, #070609 360px, #110b0b 800px, #0a0613 45%, #080512 75%, #04030a 100%);
+}
+
+footer {
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  font-size: 12px;
+  color: #77716d;
+  letter-spacing: .06em;
+}
+
+/* =====================================
+   RESPONSIVIDADE
+===================================== */
+
+@media (max-width: 860px) {
+  .feixe i { left: 62%; }
+
+  .explorar {
+    margin-top: 2.5rem;
+  }
+
+  .artigos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card-destaque,
+  .card-destaque .card-corpo {
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .banner {
+    min-height: 50svh;
+    padding-top: 1.5rem;
+  }
+
+  .semana {
+    margin-top: 0;
+  }
+
+  .palco {
+    width: 115%;
+  }
+
+  .explorar {
+    padding: 0 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .destaques {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .card-destaque,
+  .card-destaque .card-corpo {
+    min-height: 320px;
+  }
+
+  .card-destaque .card-corpo {
+    padding: 1.7rem;
+  }
+
+  .artigos-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .card-artigo {
+    display: grid;
+    grid-template-columns: 115px minmax(0, 1fr);
+    min-height: 145px;
+  }
+
+  .card-artigo .card-img {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .card-artigo .card-img::after {
+    background: linear-gradient(90deg, transparent, rgba(8,7,10,.3));
+  }
+
+  .card-artigo .card-corpo {
+    padding: 1rem;
+  }
+
+  .card-artigo .card-titulo {
+    font-size: 19px;
+  }
+
+  .card-artigo .card-desc {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+
+  .container {
+    padding: 2rem 1.4rem 4rem;
+  }
+
+  .sobre-section p {
+    font-size: 15px;
+  }
+
+  .creditos-lista {
+    gap: .9rem 1.5rem;
+  }
+
+  .creditos-lista span {
+    font-size: 13px;
+  }
+
+  .creditos-lista span::after {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-artigo .btn {
+    margin-top: .8rem;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  .card-artigo .card-img {
+    border-radius: 12px 0 0 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="estrelas" aria-hidden="true"></canvas>
+
+<!-- =====================================
+     BANNER
+===================================== -->
+
+<header class="banner">
+  <div class="banner-img" aria-hidden="true"></div>
+
+  <div class="feixe" aria-hidden="true">
+    <i class="brilho"></i>
+    <i class="nucleo"></i>
+  </div>
+
+  <div class="semana">Semana do DS</div>
+
+  <div class="palco">
+    <div class="marca">
+      <h1 class="sr-only">Quasar · Página web sobre astronomia</h1>
+
+      <svg viewBox="0 0 900 345" role="img" aria-label="Logo Quasar">
+        <defs>
+          <radialGradient id="disco">
+            <stop offset="0" stop-color="#fff3c9" stop-opacity=".95"/>
+            <stop offset=".45" stop-color="#f0a34a" stop-opacity=".55"/>
+            <stop offset="1" stop-color="#c0561e" stop-opacity="0"/>
+          </radialGradient>
+
+          <radialGradient id="nucleo">
+            <stop offset="0" stop-color="#fff"/>
+            <stop offset=".3" stop-color="#fff1c4" stop-opacity=".95"/>
+            <stop offset="1" stop-color="#e0892f" stop-opacity="0"/>
+          </radialGradient>
+
+          <linearGradient id="jato" gradientUnits="userSpaceOnUse" x1="-135" y1="0" x2="115" y2="0">
+            <stop offset="0" stop-color="#bcd2ff" stop-opacity="0"/>
+            <stop offset=".3" stop-color="#fff"/>
+            <stop offset=".78" stop-color="#fff"/>
+            <stop offset="1" stop-color="#fff" stop-opacity=".1"/>
+          </linearGradient>
+
+          <filter id="brilho" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3.5" result="b"/>
+            <feMerge>
+              <feMergeNode in="b"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <filter id="halo" x="-10%" y="-25%" width="120%" height="150%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="b"/>
+            <feFlood flood-color="#e0892f" flood-opacity=".38"/>
+            <feComposite in2="b" operator="in" result="g"/>
+            <feMerge>
+              <feMergeNode in="g"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+        </defs>
+
+        <g transform="translate(142 150)">
+          <ellipse rx="112" ry="38" transform="rotate(-34)" fill="url(#disco)"/>
+
+          <path fill="#fff" fill-rule="evenodd" transform="rotate(-34)" filter="url(#halo)"
+            d="M-124 0 A124 54 0 1 0 124 0 A124 54 0 1 0 -124 0 Z
+               M-113 -7 A113 39 0 1 1 113 -7 A113 39 0 1 1 -113 -7 Z"/>
+
+          <g transform="rotate(56)">
+            <path d="M-135 0 C-80 -6 -30 -10 0 -10 C30 -10 70 -7 115 0 C70 7 30 10 0 10 C-30 10 -80 6 -135 0 Z"
+              fill="url(#jato)" filter="url(#brilho)"/>
+            <line x1="-125" y1="0" x2="108" y2="0" stroke="#fff" stroke-width="1.6" opacity=".9"/>
+          </g>
+
+          <circle r="34" fill="url(#nucleo)" class="pulso"/>
+          <circle r="5.5" fill="#fff" filter="url(#brilho)"/>
+        </g>
+
+        <text x="252" y="248" fill="#fff" stroke="#f3dfa6" stroke-opacity=".3" stroke-width="1.2" filter="url(#halo)"
+          font-family="'Playfair Display', Georgia, serif"
+          font-weight="500" font-size="215"
+          textLength="636" lengthAdjust="spacingAndGlyphs">UASAR</text>
+
+        <text x="458" y="324" text-anchor="middle" fill="#fff"
+          font-family="'Cormorant Garamond', Georgia, serif"
+          font-weight="600" font-size="74" letter-spacing="1.5">
+          Página web sobre <tspan font-style="italic">astronomia</tspan>
+        </text>
+
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="corpo">
+
+<!-- =====================================
+     CARDS DE NAVEGAÇÃO
+===================================== -->
+
+<main class="explorar">
+
+  <section class="destaques" aria-label="Áreas principais">
+
+    <!-- BIBLIOTECA -->
+    <a class="card card-destaque" href="biblioteca.html">
+      <div class="card-img">
+        <img src="card-biblioteca.jpg" alt="Biblioteca de conteúdos espaciais" loading="lazy">
+      </div>
+
+      <div class="card-corpo">
+        <h2 class="card-titulo">Biblioteca</h2>
+        <p class="card-desc">
+          Explore imagens, registros, observações e publicações científicas
+          de diferentes agências espaciais em um só lugar.
+        </p>
+        <span class="btn btn-creme">Explorar biblioteca →</span>
+      </div>
+    </a>
+
+    <!-- INTRO JOGOS -->
+    <a class="card card-destaque" href="introjogo.html">
+      <div class="card-img">
+        <img src="card-jogos.jpg" alt="Jogos de astronomia" loading="lazy">
+      </div>
+
+      <div class="card-corpo">
+        <h2 class="card-titulo">Jogos</h2>
+        <p class="card-desc">
+          Interaja com o universo de forma lúdica. Teste seus conhecimentos,
+          explore desafios e descubra mais sobre a ciência espacial.
+        </p>
+        <span class="btn btn-laranja">Conhecer os jogos →</span>
+      </div>
+    </a>
+
+  </section>
+
+  <!-- =====================================
+       ARTIGOS
+  ===================================== -->
+
+  <section class="artigos" id="artigos">
+    <h2 class="secao-titulo">Explore o universo</h2>
+    <p class="secao-intro">
+      Conheça alguns dos temas que ajudam a compreender o cosmos.
+    </p>
+
+    <div class="artigos-grid">
+
+      <!-- SISTEMA SOLAR -->
+      <a class="card card-artigo" href="intera-o-sistema-solar-main/sistema-solar.html">
+        <div class="card-img">
+          <img src="card-sistemasolar.jpg" alt="Sistema Solar" loading="lazy">
+        </div>
+        <div class="card-corpo">
+          <h3 class="card-titulo">Sistema Solar</h3>
+          <p class="card-desc">
+            O Sol e todos os corpos que orbitam ao seu redor. Uma viagem
+            por 4,6 bilhões de anos de história cósmica.
+          </p>
+        <span class="btn btn-verde btn-pequeno">Ler artigo →</span>
+        </div>
+      </a>
+
+      <!-- BIG BANG -->
+      <a class="card card-artigo" href="bigbang.html">
+        <div class="card-img">
+          <img src="card-bigbang.jpg" alt="Big Bang" loading="lazy">
+        </div>
+        <div class="card-corpo">
+          <h3 class="card-titulo">Big Bang</h3>
+          <p class="card-desc">
+            A teoria que descreve a origem e a expansão do Universo,
+            desde seus primeiros instantes.
+          </p>
+        <span class="btn btn-verde btn-pequeno">Ler artigo →</span>
+        </div>
+      </a>
+
+      <!-- EXPEDIÇÕES -->
+      <a class="card card-artigo" href="expedições.html">
+        <div class="card-img">
+          <img src="card-expedicoes.jpg" alt="Expedições espaciais" loading="lazy">
+        </div>
+        <div class="card-corpo">
+          <h3 class="card-titulo">Expedições Espaciais</h3>
+          <p class="card-desc">
+            Da corrida espacial às agências que hoje investigam
+            os mistérios do Universo.
+          </p>
+        <span class="btn btn-verde btn-pequeno">Ler artigo →</span>
+        </div>
+      </a>
+
+      <!-- ASTROFÍSICA -->
+      <a class="card card-artigo" href="astrofisica.html">
+        <div class="card-img">
+          <img src="card-astrofisica.jpg" alt="Astrofísica" loading="lazy">
+        </div>
+        <div class="card-corpo">
+          <h3 class="card-titulo">Astrofísica</h3>
+          <p class="card-desc">
+            Como as leis da física ajudam a entender estrelas,
+            planetas, galáxias e outros fenômenos.
+          </p>
+        <span class="btn btn-verde btn-pequeno">Ler artigo →</span>
+        </div>
+      </a>
+
+      <!-- FOGUETES -->
+      <a class="card card-artigo" href="foguetes.html">
+        <div class="card-img">
+          <img src="card-foguetes.jpg" alt="Foguetes" loading="lazy">
+        </div>
+        <div class="card-corpo">
+          <h3 class="card-titulo">Foguetes</h3>
+          <p class="card-desc">
+            A engenharia por trás dos lançamentos espaciais
+            e os desafios de vencer a gravidade.
+          </p>
+        <span class="btn btn-verde btn-pequeno">Ler artigo →</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- =====================================
+     SOBRE E CRÉDITOS
+===================================== -->
+
+<div class="container">
+
+  <section class="sobre-section" id="sobre">
+    <h2>Sobre o projeto</h2>
+    <p>
+      Na página web do 1º DS W abordamos diversos assuntos relacionados
+      à astronomia e à utilização e aplicação da tecnologia nesse estudo,
+      com interações criativas e intuitivas programadas em HTML, CSS e JavaScript.
+    </p>
+  </section>
+
+  <hr style="border:none;border-top:1px solid rgba(255,255,255,.1);margin:3rem 0;">
+
+  <section class="sobre-section" id="creditos">
+    <h2>Créditos</h2>
+
+    <div class="creditos-lista">
+      <span>Andy Franco</span>
+      <span>Brendo Xavier</span>
+      <span>Vinícíus Luan</span>
+      <span>Jonas Aparecido</span>
+      <span>Estaneley Goltz</span>
+      <span>Milena Alves</span>
+      <span>Maria Galvão</span>
+      <span>Ana Julia Gomes</span>
+      <span>Mateus Graupner</span>
+      <span>Larissa Rodrigues</span>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>Quasar &copy; 2026</p>
+</footer>
+
+</div>
+
+<div id="transicao" aria-hidden="true"></div>
+
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
+
+<script>
+/* Estrelas piscando */
+(() => {
+  const cv = document.getElementById('estrelas');
+  const ctx = cv.getContext('2d');
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const cores = [
+    '255,255,255',
+    '255,255,255',
+    '255,240,210',
+    '255,190,120',
+    '190,210,255'
+  ];
+
+  let W, H, estrelas = [];
+
+  function medir() {
+    const d = Math.min(devicePixelRatio || 1, 2);
+    const r = cv.getBoundingClientRect();
+
+    W = r.width;
+    H = r.height;
+
+    cv.width = W * d;
+    cv.height = H * d;
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+
+    const n = Math.min(380, Math.floor(W * H / 3200));
+
+    estrelas = Array.from({ length: n }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() < .1 ? 1.8 : .6 + Math.random() * 1.1,
+      c: cores[Math.floor(Math.random() * cores.length)],
+      v: 1.2 + Math.random() * 3.4,
+      p: Math.random() * 6.28,
+      o: .35 + Math.random() * .65
+    }));
+  }
+
+  medir();
+  new ResizeObserver(medir).observe(cv);
+
+  function loop(ms) {
+    requestAnimationFrame(loop);
+
+    const t = ms / 1000;
+    ctx.clearRect(0, 0, W, H);
+
+    for (const s of estrelas) {
+      const a = calmo
+        ? s.o
+        : Math.min(
+            1,
+            .04 + 1.2 * s.o *
+            Math.pow(.5 + .5 * Math.sin(t * s.v + s.p), 1.6)
+          );
+
+      ctx.fillStyle = `rgba(${s.c},${a})`;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, 6.2832);
+      ctx.fill();
+
+      if (s.r > 1.5) {
+        ctx.fillStyle = `rgba(${s.c},${a * .35})`;
+        ctx.fillRect(s.x - 5, s.y - .4, 10, .8);
+        ctx.fillRect(s.x - .4, s.y - 5, .8, 10);
+      }
+    }
+  }
+
+  requestAnimationFrame(loop);
+})();
+
+/* Transição dos cards */
+(() => {
+  const cards = [...document.querySelectorAll('.card')];
+  const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ATRASO = 650;
+
+  cards.forEach(card => {
+    card.addEventListener('click', e => {
+      if (
+        e.defaultPrevented ||
+        e.button !== 0 ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.shiftKey ||
+        e.altKey
+      ) return;
+
+      if (reduz) return;
+
+      e.preventDefault();
+
+      if (document.body.classList.contains('saindo')) return;
+
+      const r = card.getBoundingClientRect();
+
+      const dx = innerWidth / 2 - (r.left + r.width / 2);
+      const dy = innerHeight / 2 - (r.top + r.height / 2);
+
+      const zoom = Math.min(
+        1.5,
+        (innerWidth * .8) / r.width,
+        (innerHeight * .8) / r.height
+      );
+
+      card.style.setProperty('--dx', dx + 'px');
+      card.style.setProperty('--dy', dy + 'px');
+      card.style.setProperty('--zoom', zoom);
+
+      card.classList.add('escolhido');
+      document.body.classList.add('saindo');
+
+      setTimeout(() => {
+        location.href = card.href;
+      }, ATRASO);
+    });
+  });
+
+  addEventListener('pageshow', e => {
+    if (!e.persisted) return;
+
+    document.body.classList.remove('saindo');
+    cards.forEach(c => c.classList.remove('escolhido'));
+  });
+})();
+</script>
+
+</body>
+</html>

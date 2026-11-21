@@ -1,0 +1,426 @@
+/* === PAINEL INFERIOR DO HANGAR: CHECKLIST + ENGENHEIRO === */
+.sv-eng-section {
+  width: 100%;
+  max-width: 1180px;
+  margin: 18px auto 28px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 14px;
+  font-family: "Space Mono", monospace, sans-serif;
+  color: var(--sv-cream, #f2eee4);
+}
+
+.sv-eng-card {
+  background: rgba(15, 19, 30, 0.92);
+  border: 1.5px solid rgba(242, 238, 228, 0.22);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 10px 26px rgba(0, 0, 0, 0.45);
+}
+
+.sv-eng-title {
+  margin: 0 0 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sv-orange, #eb8928);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(242, 238, 228, 0.12);
+  padding-bottom: 8px;
+}
+
+/* Lista do Checklist */
+.sv-check-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.sv-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(242, 238, 228, 0.09);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.sv-check-badge {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  background: rgba(235, 137, 40, 0.18);
+  color: #eb8928;
+  border: 1px solid rgba(235, 137, 40, 0.45);
+}
+
+.sv-check-item.is-ok .sv-check-badge {
+  background: rgba(132, 185, 172, 0.2);
+  color: #84b9ac;
+  border-color: #84b9ac;
+}
+
+.sv-check-item.is-bad .sv-check-badge {
+  background: rgba(230, 57, 70, 0.2);
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.sv-check-info strong {
+  display: block;
+  color: #f2eee4;
+  font-size: 12px;
+}
+
+.sv-check-info span {
+  color: rgba(242, 238, 228, 0.72);
+  font-size: 11px;
+}
+
+/* Área do Engenheiro-Chefe + Balão de Voz */
+.sv-eng-coach {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.sv-eng-avatar {
+  flex-shrink: 0;
+  width: 96px;
+  height: 128px;
+  border-radius: 14px;
+  background: #000000;
+  border: 2px solid var(--sv-orange, #eb8928);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: svEngFloat 3.2s ease-in-out infinite;
+}
+
+.sv-eng-avatar img {
+  width: 96%;
+  height: 96%;
+  object-fit: contain;
+}
+
+@keyframes svEngFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.sv-eng-bubble {
+  position: relative;
+  flex: 1;
+  background: rgba(242, 238, 228, 0.08);
+  border: 1.5px solid rgba(242, 238, 228, 0.24);
+  border-radius: 12px;
+  padding: 11px 13px;
+}
+
+.sv-eng-bubble::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 22px;
+  width: 12px;
+  height: 12px;
+  background: #212531;
+  border-left: 1.5px solid rgba(242, 238, 228, 0.24);
+  border-bottom: 1.5px solid rgba(242, 238, 228, 0.24);
+  transform: rotate(45deg);
+}
+
+.sv-eng-verdict {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.sv-eng-verdict.is-go {
+  background: rgba(132, 185, 172, 0.22);
+  color: #84b9ac;
+  border: 1px solid #84b9ac;
+}
+
+.sv-eng-verdict.is-warn {
+  background: rgba(235, 137, 40, 0.22);
+  color: #ffb347;
+  border: 1px solid #eb8928;
+}
+
+.sv-eng-verdict.is-stop {
+  background: rgba(230, 57, 70, 0.22);
+  color: #ff758f;
+  border: 1px solid #e63946;
+}
+
+.sv-eng-speech {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  line-height: 1.48;
+  color: #f2eee4;
+}
+
+.sv-eng-reach {
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgba(110, 198, 255, 0.1);
+  border: 1px solid rgba(110, 198, 255, 0.3);
+  font-size: 11.5px;
+  color: #9be0ff;
+}
+/* === MÉTRICAS E BARRINHAS DO CHECKLIST APRIMORADO === */
+.sv-check-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.sv-check-metric {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #9be0ff;
+  background: rgba(110, 198, 255, 0.12);
+  border: 1px solid rgba(110, 198, 255, 0.28);
+  padding: 2px 6px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.sv-check-item.is-ok .sv-check-metric {
+  color: #84b9ac;
+  background: rgba(132, 185, 172, 0.14);
+  border-color: rgba(132, 185, 172, 0.35);
+}
+
+.sv-check-item.is-bad .sv-check-metric {
+  color: #ff858d;
+  background: rgba(230, 57, 70, 0.16);
+  border-color: rgba(230, 57, 70, 0.4);
+}
+
+.sv-check-meter {
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin: 5px 0;
+}
+
+.sv-check-meter > i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #eb8928, #ffc83a);
+  transition: width 0.2s ease;
+}
+
+.sv-check-item.is-ok .sv-check-meter > i {
+  background: linear-gradient(90deg, #4ea8ff, #84b9ac);
+}
+
+.sv-check-item.is-bad .sv-check-meter > i {
+  background: linear-gradient(90deg, #e63946, #ff8a1a);
+}
+/* === DICA DE DÚVIDA DO ENGENHEIRO CHARLES === */
+.sv-eng-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sv-eng-help {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 5;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--sv-orange, #eb8928);
+  background: #141926;
+  color: var(--sv-cream, #f2eee4);
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: help;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.sv-eng-help:hover,
+.sv-eng-help:focus {
+  transform: scale(1.1);
+  background: var(--sv-orange, #eb8928);
+  color: #0b0e17;
+  outline: none;
+}
+
+.sv-eng-tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 0;
+  z-index: 20;
+  width: 225px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #141926;
+  border: 1.5px solid var(--sv-orange, #eb8928);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+  color: var(--sv-cream, #f2eee4);
+  font-size: 11.5px;
+  line-height: 1.45;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+}
+
+.sv-eng-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 76px;
+  border: 7px solid transparent;
+  border-top-color: var(--sv-orange, #eb8928);
+}
+
+.sv-eng-avatar-wrap:hover .sv-eng-tooltip,
+.sv-eng-help:focus + .sv-eng-tooltip,
+.sv-eng-avatar-wrap.is-open .sv-eng-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+/* === BOTÃO VOLTAR AO HANGAR === */
+.sv-mission-back-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 0 10px;
+}
+
+.sv-btn-back-hangar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--sv-orange, #eb8928);
+  background: rgba(235, 137, 40, 0.14);
+  color: var(--sv-cream, #f2eee4);
+  font-family: "Space Mono", monospace, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease;
+}
+
+.sv-btn-back-hangar:hover,
+.sv-btn-back-hangar:active {
+  background: var(--sv-orange, #eb8928);
+  color: #0b0e17;
+  transform: translateY(-1px);
+}
+
+.sv-btn-back-hangar svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+
+/* === AJUSTES FINOS DE ACABAMENTO E RESPONSIVIDADE === */
+.sv-eng-section {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+}
+
+.sv-eng-bubble::before {
+  left: -8px;
+  top: 20px;
+  width: 8px;
+  height: 14px;
+  background: rgba(242, 238, 228, 0.28);
+  border: none;
+  transform: none;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
+
+.sv-eng-tooltip {
+  z-index: 999;
+  width: min(230px, 72vw);
+}
+
+@media (max-width: 440px) {
+  .sv-eng-avatar {
+    width: 78px;
+    height: 106px;
+  }
+
+  .sv-eng-tooltip::after {
+    left: 60px;
+  }
+}
+/* Painel logo abaixo da seção do Hangar, fora da grade da prévia */
+.rg-app > .sv-eng-section {
+  display: none;
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
+  margin: 14px auto 0;
+  padding: 0;
+}
+.rg-app[data-screen="hangar"] > .sv-eng-section {
+  display: grid;
+}
+
+/* Esconde os 3 cartões antigos da Missão (os dados agora vêm de computeStats) */
+.rg-diag__list { display: none !important; }
+
+.sv-mission-back-bar { margin: 0; }
+[data-action="to-mission"],
+[data-action="to-mission"] span {
+  display: inline-block;
+  text-transform: lowercase !important;
+}
+
+[data-action="to-mission"]::first-letter,
+[data-action="to-mission"] span::first-letter {
+  text-transform: uppercase !important;
+}
+/* esconde o "← Hangar" nativo da Missão */
+.rg-mission__head [data-action="to-hangar"] {
+  display: none;
+}

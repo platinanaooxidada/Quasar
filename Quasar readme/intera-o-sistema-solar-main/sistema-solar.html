@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#04060c">
+  <meta name="description" content="Explore planetas, luas e a evolução do Sistema Solar em arte de caractere.">
+  <title>Sistema Solar em Arte de Caractere</title>
+  <link rel="icon" href="./estilos/marca-sistema-solar.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <link rel="stylesheet" href="./estilos/sistema-solar.css">
+  <script type="module" src="./scripts/modulos/principal.js"></script>
+<header>
+  <ul class="nav">
+    <li class="nav-item"><a class="nav-link" href="../home.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="../biblioteca.html">Biblioteca</a></li>
+    <li class="nav-item"><a class="nav-link" href="sistema-solar.html">Sistema Solar</a></li>
+    <li class="nav-item"><a class="nav-link" href="../bigbang.html">Big Bang</a></li>
+    <li class="nav-item"><a class="nav-link" href="../expedições.html">Expedições</a></li>
+    <li class="nav-item"><a class="nav-link" href="../astrofisica.html">Astrofísica</a></li>
+    <li class="nav-item"><a class="nav-link" href="../foguetes.html">Foguetes</a></li>
+    <li class="nav-item"><a class="nav-link" href="../introjogo.html">Jogar</a></li>
+  </ul>
+</header>
+</head>
+<body>
+  <a class="pular" href="#hero">Pular para o conteúdo</a>
+  <header class="barra">
+    <div class="barra__conteudo largura">
+      <a class="marca" href="#hero">Sistema Solar</a>
+      <nav class="navegacao" aria-label="Seções do Sistema Solar">
+        <a href="#hero" aria-current="location">Início</a>
+        <a href="#explorador">Sistema Solar</a>
+        <a href="#futuro">O Que Será de Nós?</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="abertura" aria-labelledby="titulo">
+      <canvas id="viagem" aria-hidden="true"></canvas>
+      <div class="abertura__veu" aria-hidden="true"></div>
+      <div class="abertura__moldura largura" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="abertura__conteudo largura">
+        <p class="sv-loader__tag"><i class="sinal" aria-hidden="true"></i> Semana do DS · Astronomia</p>
+        <h1 id="titulo">
+          <img class="abertura__marca" src="./estilos/marca-sistema-solar.jpg" width="1792" height="2400" alt="Sistema Solar" fetchpriority="high">
+          <span>em arte de caracteres</span>
+        </h1>
+        <p class="abertura__descricao">Uma viagem interativa pelo nosso sistema Solar construída inteiramente com letras,números e símbolos de texto. Explore planetas, luas e descubra o destino do nosso sistema Solar.</p>
+        <a class="sv-btn-back-hangar botao-principal" href="#explorador">Vamos explorar <span aria-hidden="true"></span></a>
+      </div>
+      <div class="abertura__rodape largura">
+        <div class="abertura__etapa">
+          <span class="etiqueta" id="etapa-viagem">Plataforma e ignição</span>
+          <span class="relogio" id="tempo-viagem" aria-hidden="true">T+00 s</span>
+          <span class="progresso-viagem" aria-hidden="true"><i id="progresso-viagem"></i></span>
+        </div>
+        <button id="pausar-viagem" class="botao-discreto" type="button" aria-label="Pausar viagem" disabled>||</button>
+      </div>
+    </section>
+
+    <section id="explorador" class="secao largura" aria-labelledby="titulo-explorador">
+      <header class="secao__cabecalho">
+        <p class="sv-loader__tag">01 Telemetria &amp; navegação espacial</p>
+        <h2 id="titulo-explorador">Explore o Sistema Solar<br> em 3D ASCII</h2>
+      </header>
+      <div class="sv-eng-card painel">
+        <div class="selecao" id="selecao-astros" role="group" aria-label="Selecionar astro"></div>
+        <div class="selecao selecao--luas" id="selecao-luas" role="group" aria-label="Selecionar lua" hidden></div>
+        <div class="palco explorador__palco">
+          <canvas id="mapa-solar" tabindex="0" aria-label="Mapa 3D do Sistema Solar" aria-describedby="ajuda-mapa"></canvas>
+          <div class="rotulos" id="rotulos-astros"></div>
+          <div class="palco__telemetria">
+            <span class="etiqueta" id="alvo-atual">Visão geral</span>
+            <button id="inspecionar" class="botao-discreto" type="button" hidden>Inspecionar 360° ↗</button>
+          </div>
+          <button id="mira" class="mira" type="button" aria-label="Inspecionar astro na mira" hidden><span aria-hidden="true">+</span><span id="alvo-mira"></span></button>
+          <div class="direcao-voo" id="direcao-voo" role="group" aria-label="Direção do voo" hidden>
+            <button class="botao-discreto" type="button" data-direcao="w" aria-label="Avançar">↑</button>
+            <button class="botao-discreto" type="button" data-direcao="a" aria-label="Mover para a esquerda">←</button>
+            <button class="botao-discreto" type="button" data-direcao="s" aria-label="Recuar">↓</button>
+            <button class="botao-discreto" type="button" data-direcao="d" aria-label="Mover para a direita">→</button>
+          </div>
+          <div class="palco__ajuda"><span id="ajuda-mapa">Arraste ou use as setas para orbitar · Role, faça pinça ou use +/− para ajustar a aproximação</span><span>Escala logarítmica ilustrativa</span></div>
+        </div>
+        <div class="controles">
+          <button class="sv-btn-back-hangar" type="button" id="alternar-orbitas" aria-pressed="true">Rotação orbital: ativa</button>
+          <label class="etiqueta" for="velocidade-orbital">Velocidade
+            <select id="velocidade-orbital">
+              <option value="1">1×</option><option value="5">5×</option><option value="20">20×</option>
+            </select>
+          </label>
+          <label class="opcao"><input id="mostrar-orbitas" type="checkbox" checked> Órbitas</label>
+          <label class="opcao"><input id="mostrar-rotulos" type="checkbox" checked> Rótulos</label>
+          <a class="botao-discreto atalho-vitrine" href="#vitrine">Catálogo dos astros ↘</a>
+          <button class="botao-discreto voo-livre" type="button" id="voo-livre" aria-pressed="false">Voo livre</button>
+        </div>
+      </div>
+      <noscript><p>Ative o JavaScript para navegar pelo mapa e pela linha do tempo.</p></noscript>
+    </section>
+
+    <section id="vitrine" class="secao largura" aria-labelledby="titulo-vitrine">
+      <header class="secao__cabecalho">
+        <h2 id="titulo-vitrine">Catálogo dos astros</h2>
+      </header>
+      <div data-vitrine-aberta></div>
+    </section>
+
+    <section id="futuro" class="secao largura" aria-labelledby="titulo-futuro">
+      <header class="secao__cabecalho">
+        <p class="sv-loader__tag">02 Evolução do nosso Sistema Solar · Passado, presente e futuro</p>
+        <h2 id="titulo-futuro">O que será de nós?</h2>
+      </header>
+      <div class="sv-eng-card painel">
+        <div class="palco tempo__palco">
+          <canvas id="cena-temporal" aria-hidden="true"></canvas>
+          <div class="tempo__fase">
+            <span class="etiqueta" id="numero-fase">I</span>
+            <h3 id="nome-fase" aria-hidden="true">Colapso</h3>
+            <p id="descricao-fase">Há 4,6 bilhões de anos, uma nuvem gigante de gás e poeira entrou em colapso.</p>
+            <span class="somente-leitura" id="anuncio-fase" aria-live="polite"></span>
+          </div>
+          <div class="tempo__leitura">
+            <span class="tempo__numero" id="contador-cosmico">4.680.000.000</span>
+            <span class="etiqueta" id="unidade-cosmica">anos atrás</span>
+          </div>
+        </div>
+        <div class="tempo__controles">
+          <label class="somente-leitura" for="barra-temporal">Tempo cósmico</label>
+          <input id="barra-temporal" type="range" min="0" max="9000" value="0" step="1">
+          <div class="tempo__marcos" id="marcos-temporais">
+            <button type="button" data-tempo="0">−4,68 bi</button>
+            <button type="button" data-tempo="3000">hoje</button>
+            <button type="button" data-tempo="5000">+5 bi</button>
+            <button type="button" data-tempo="8000">+7,8 bi</button>
+          </div>
+          <div class="tempo__reproducao">
+            <button class="botao-discreto" id="fase-anterior" type="button"><span aria-hidden="true">|&lt;</span> Fase anterior</button>
+            <button class="sv-btn-back-hangar" id="reproduzir-tempo" type="button"><span aria-hidden="true">||</span> Pausar</button>
+            <button class="botao-discreto" id="proxima-fase" type="button">Próxima fase <span aria-hidden="true">&gt;|</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape largura">
+    <span>Sistema Solar</span>
+    <a href="#hero">Voltar ao início ↑</a>
+  </footer>
+
+  <dialog id="inspetor" class="inspetor" aria-labelledby="nome-astro"></dialog>
+
+  <template id="modelo-vitrine">
+    <div class="sv-eng-card vitrine__quadro">
+      <div class="vitrine__layout">
+        <article class="ficha">
+          <header>
+            <p class="etiqueta ficha__categoria" data-ficha="categoria"></p>
+            <h3 data-ficha="titulo"></h3>
+          </header>
+          <p class="ficha__descricao" data-ficha="descricao"></p>
+          <dl data-ficha="metricas"></dl>
+          <footer class="ficha__fontes">Fontes verificadas:
+            <a data-ficha="nasa" href="https://science.nasa.gov/solar-system/" target="_blank" rel="noopener">NASA</a> ·
+            <a data-ficha="wikipedia" href="https://pt.wikipedia.org/wiki/Sistema_Solar" target="_blank" rel="noopener">Wikipédia (pt-BR)</a>
+          </footer>
+        </article>
+
+        <div class="palco vitrine__palco">
+          <canvas tabindex="0" data-ficha="globo" aria-label="Globo ASCII do astro selecionado"></canvas>
+          <div class="vitrine__acoes">
+            <button class="botao-discreto" type="button" data-ficha="acao"></button>
+          </div>
+          <nav class="vitrine__indicadores" data-ficha="indicadores" aria-label="Selecionar astro"></nav>
+          <p class="palco__ajuda vitrine__ajuda" data-ficha="ajuda">Arraste ou use as setas para girar · Role, faça pinça ou use +/− para ajustar o zoom</p>
+        </div>
+      </div>
+
+      <div class="vitrine__rodape">
+        <p class="vitrine__instrucao" data-ficha="instrucao">Role a galeria ou escolha um astro.</p>
+        <div class="vitrine__galeria" data-ficha="galeria" tabindex="0" role="group" aria-label="Galeria de astros"></div>
+      </div>
+      <div class="somente-leitura" data-ficha="anuncio" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </template>
+<style>
+  /* ---------- Navbar ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(3, 3, 10, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(168, 180, 255, 0.2);
+    padding: 0 1rem;
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+  header .nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: .25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    overflow-x: auto;
+  }
+  header .nav-item { margin: 0; }
+  header .nav-link {
+    display: block;
+    padding: .95rem 1rem;
+    color: #b8c0e8;
+    text-decoration: none;
+    font-size: .95rem;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  header .nav-link:hover {
+    color: #fff;
+    background: rgba(100, 90, 180, 0.2);
+    border-bottom-color: #a8b4ff;
+  }
+  header .nav-link.active {
+    color: #fff;
+    border-bottom-color: #c4b5fd;
+  }
+  header .nav-link:focus-visible {
+    outline: 2px solid #a8b4ff;
+    outline-offset: -2px;
+  }
+  section { scroll-margin-top: 60px; }
+  /* Painéis quando estão em tela cheia */
+  .painel:fullscreen {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 12px;
+    background: #04060c;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .painel:fullscreen .explorador__palco,
+  .painel:fullscreen .tempo__palco {
+    flex: 1 0 250px;
+    height: auto;
+    min-height: 250px;
+  }
+
+  .painel:fullscreen .selecao,
+  .painel:fullscreen .controles,
+  .painel:fullscreen .tempo__controles {
+    flex-shrink: 0;
+  }
+
+  .botao-tela-cheia {
+    align-self: flex-end;
+    margin: 6px;
+  }
+</style>
+
+<script>
+  function adicionarBotaoTelaCheia(seletorSecao) {
+    const secao = document.querySelector(seletorSecao);
+    const painel = secao && secao.querySelector(".painel");
+    if (!painel) return;
+
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "botao-discreto botao-tela-cheia";
+    botao.textContent = "⛶ Tela cheia";
+
+    // Coloca o botão antes dos outros controles.
+    painel.insertBefore(botao, painel.firstChild);
+
+    // A janela de inspeção precisa acompanhar o painel
+    // para aparecer enquanto o explorador está em tela cheia.
+    const inspetor = seletorSecao === "#explorador"
+      ? document.querySelector("#inspetor")
+      : null;
+    const lugarOriginal = inspetor ? document.createComment("lugar do inspetor") : null;
+
+    if (inspetor) {
+      inspetor.parentNode.insertBefore(lugarOriginal, inspetor);
+    }
+
+    botao.addEventListener("click", async () => {
+      try {
+        if (document.fullscreenElement === painel) {
+          await document.exitFullscreen();
+        } else {
+          if (inspetor) painel.appendChild(inspetor);
+          await painel.requestFullscreen();
+        }
+      } catch (erro) {
+        if (inspetor && lugarOriginal.parentNode) {
+          lugarOriginal.parentNode.insertBefore(inspetor, lugarOriginal.nextSibling);
+        }
+        alert("Não foi possível abrir a tela cheia neste navegador.");
+      }
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      const aberto = document.fullscreenElement === painel;
+      botao.textContent = aberto ? "✕ Sair da tela cheia" : "⛶ Tela cheia";
+
+      if (!aberto && inspetor && lugarOriginal.parentNode) {
+        lugarOriginal.parentNode.insertBefore(inspetor, lugarOriginal.nextSibling);
+      }
+    });
+  }
+
+  adicionarBotaoTelaCheia("#explorador");
+  adicionarBotaoTelaCheia("#futuro");
+</script>
+</body>
+</html>
